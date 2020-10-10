@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:02:24 by marina            #+#    #+#             */
-/*   Updated: 2020/10/08 00:11:42 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/10 05:34:28 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,8 @@ t_case	reaching_obstacle(double ray, t_cub3d *cub3d)
 	cub3d->player.dir = get_first_wall(ray);
 	while (obs != '1')
 	{
-		//printf("2\n");
+		if (cub3d->map[cub3d->map_y - 1 - (int)spot.p.y][(int)spot.p.x] != '0')
+			add_sprite(cub3d, spot, cub3d->map[cub3d->map_y - 1 - (int)spot.p.y][(int)spot.p.x], ray);
 		wall = right_wall(ray, spot, cub3d);
 		if (wall == 'E' || wall == 'W')
 			spot.p.x = spot.p.x + (wall == 'E' ? 1 : -1);

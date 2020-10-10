@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/10/10 00:13:32 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/10 05:32:23 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,19 @@ typedef struct		s_text
 	int				height;
 }					t_text;
 
+typedef struct		s_sprite
+{
+	struct s_sprite	*closer;
+	t_text			image;
+	t_case			data;
+}					t_sprite;
+
+typedef struct		s_skin
+{
+	char			type;
+	t_text			skin;
+}					t_skin;
+
 typedef struct		s_cub3d
 {
 	void			*mlx;
@@ -75,6 +88,8 @@ typedef struct		s_cub3d
 	int				height;
 	int				fov;
 	t_obj			player;
+	t_sprite		*sprite;
+	t_skin			*skins;
 	char			**map;
 	int				map_x;
 	int				map_y;
@@ -87,10 +102,14 @@ t_line		fill_t_line(double a, double b, double c, double d);
 void		mapping(int fd, t_cub3d *cub3d);
 void		my_free(void *pointer);
 
-t_case		reaching_obstacle(double ray, 
-t_cub3d *cub3d);
+t_case		reaching_obstacle(double ray, t_cub3d *cub3d);
+void		intersect(t_case *spot, t_line beam, t_line wall);
 
 double		simplifier(double angle);
 double		dtor(double angle);
+
+void	free_sprite(t_sprite *link);
+void	add_sprite(t_cub3d *cub3d, t_case spot, char type, double ray);
+
 
 #endif

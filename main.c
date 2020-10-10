@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:53:30 by marina            #+#    #+#             */
-/*   Updated: 2020/10/10 01:48:52 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/10 05:46:06 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,15 +121,6 @@ void	draw_col(t_cub3d *cub3d, t_case wall, int i)
 		t = &cub3d->south;
 	else
 		t = &cub3d->east;
-	//if (wall.wall == 'N')
-	//	color = 0x123456;
-	//else if (wall.wall == 'W')
-	//	color = 0xA597C3;
-	//else if (wall.wall == 'S')
-	//	color = 0x10F174;
-	//else
-	//	color = 0x0F5C9A;
-		//printf("%d < %d\n", j, cub3d->height);
 	j = 0;
 	while (j < h)
 	{
@@ -147,6 +138,44 @@ void	draw_col(t_cub3d *cub3d, t_case wall, int i)
 		draw_pixel(i, j, cub3d->floor, cub3d);
 		j++;
 	}
+}
+
+unsigned int	skin_pixel(t_cub3d *cub3d, double ray, double y)
+{
+	double	ang;
+	double	x;
+
+	ang = atan2(cub3d->sprite->data.p.y - cub3d->player.p.y, cub3d->sprite->data.p.x - cub3d->player.p.x);
+	x = cub3d->sprite->data.dist * tan(ang - ray);
+	x = 0.5 + x;
+	printf("coucou\n");
+	
+	return (cub3d->sprite->image.draw[((int)(y * cub3d->sprite->image.height) * cub3d->sprite->image.width + (int)(x * cub3d->sprite->image.width))]);
+}
+
+void		draw_sprites(t_cub3d *cub3d, double ray, int i)
+{
+	int		j;
+	double	h;
+	t_sprite	*bin;
+
+	j = 0;
+	h = (cub3d->height - cub3d->sprite->image.height / cub3d->sprite->data.dist) / 2;
+	while (j < h)
+		j++;
+	while (j < cub3d->height - h)
+	{
+		//printf("j = %d h = %lf\n", j, h);
+	printf("draw\n");
+
+		draw_pixel(i, j, skin_pixel(cub3d, ray, (double)(j - h) / ((double)cub3d->height - 2 * h)), cub3d);
+		j++;
+	}
+	bin = cub3d->sprite;
+	cub3d->sprite = cub3d->sprite->closer;
+	my_free(bin);
+	if (cub3d->sprite)
+		draw_sprites(cub3d, ray, i);
 }
 
 void	blackout(t_cub3d *cub3d, unsigned int color)
@@ -173,9 +202,15 @@ void	update(t_cub3d *cub3d)
 	{
 		ray = cub3d->player.ang - (cub3d->fov / 2) + ((double)i / (double)cub3d->width * (double)cub3d->fov);
 		ray = simplifier(ray);
+		if (cub3d->sprite)
+			free_sprite(cub3d->sprite);
 		temp = reaching_obstacle(ray, cub3d);
 		//printf("%lf\n", ray);
 		draw_col(cub3d, temp, cub3d->width - i);
+	printf("pre draw\n");
+
+		if (cub3d->sprite)
+			draw_sprites(cub3d, ray, cub3d->width - i);
 		i--;
 	}
 	mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img, 0, 0);
@@ -218,6 +253,18 @@ int		key_press(int key_pressed, t_cub3d *cub3d)
 	return (1);
 }
 
+void	init_skins(t_cub3d *cub3d, char *path)
+{
+	int	trash;
+
+	if (!(cub3d->skins = malloc(sizeof(t_skin *) * 2)))
+		return ;
+	cub3d->skins[0].type = '2';
+	cub3d->skins[0].skin.ptr = mlx_xpm_file_to_image(cub3d->mlx, path, &cub3d->skins[0].skin.width, &cub3d->skins[0].skin.height);
+	cub3d->skins[0].skin.draw = (unsigned int *)mlx_get_data_addr(cub3d->skins[0].skin.ptr, &trash, &trash, &trash);
+	cub3d->skins[1].type = 0;
+}
+
 int main()
 {
 	t_cub3d			cub3d;
@@ -249,12 +296,14 @@ int main()
 	cub3d.west.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/west.xpm", &cub3d.west.width, &cub3d.west.height);
 	cub3d.west.draw = (unsigned int *)mlx_get_data_addr(cub3d.west.ptr, &trash, &trash, &trash);
 	cub3d.draw = (unsigned int *)mlx_get_data_addr(cub3d.img, &trash, &trash, &trash);
+	init_skins(&cub3d, "./sprite/sprite1.xpm");
 	//cub3d.draw[52] = 0xFF00FF;
 	cub3d.ceiling = 0xb03a2e;
 	cub3d.floor = 0x6c3483;
 	cub3d.width = 500;
 	cub3d.height = 500;
 	cub3d.fov = 60;
+	cub3d.sprite = NULL;
 	mlx_hook(cub3d.win, 2, (1L<<0), &key_press, &cub3d);
 	
 	update(&cub3d);
