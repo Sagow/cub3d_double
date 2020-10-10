@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/10/08 00:14:21 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/10 00:13:32 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ typedef struct		s_cub3d
 	void			*win;
 	void			*img;
 	unsigned int	*draw;
-	t_text			*north;
-	t_text			*west;
-	t_text			*south;
-	t_text			*east;
+	t_text			north;
+	t_text			west;
+	t_text			south;
+	t_text			east;
 	unsigned int	floor;
 	unsigned int	ceiling;
 	int				width;

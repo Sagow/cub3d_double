@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:53:30 by marina            #+#    #+#             */
-/*   Updated: 2020/10/08 00:23:54 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/10 01:48:52 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,22 @@ double	simplifier(double angle)
 	return (angle);
 }
 
-unsigned int	texture(double x, double y, t_text *text)
+unsigned int	texture(t_case	wall, double y, t_text *text)
 {
-	//return (text->draw[(int)y * text->height * text->width + (int)x * text->width]);
-	return (0x2e86c1);
+	double	x;
+
+	if (wall.wall == 'W')
+		x = 1 - (wall.p.y - (double)(int)wall.p.y);
+	if (wall.wall == 'S')
+		x = wall.p.x - (double)(int)wall.p.x;
+	if (wall.wall == 'E')
+		x = (wall.p.y - (double)(int)wall.p.y);
+	if (wall.wall == 'N')
+		x = 1 - (wall.p.x - (double)(int)wall.p.x);
+	//if (x < 0 || x > 1 || y < 0 || y > 1)
+		//printf("%lf %lf\n", x, y);
+	return (text->draw[((int)(y * text->height) * text->width + (int)(x * text->width))]);
+	//return (0x2e86c1);
 }
 
 /*void	draw_line()
@@ -95,38 +107,39 @@ void	draw_pixel(int x, int y, unsigned int colour, t_cub3d *cub3d)
 
 void	draw_col(t_cub3d *cub3d, t_case wall, int i)
 {
-	double	h;
+	double		h;
 	int		j;
 	unsigned int color;
 	t_text	*t;
 
-	h = (cub3d->width / 2) / wall.dist;
-	j = 0;
+	h = (cub3d->height / 2) - ((cub3d->width / 2 - cub3d->fov / 2) / (wall.dist * cos(dtor(((double)(i * cub3d->fov) / cub3d->width) - cub3d->fov / 2))));
 	if (wall.wall == 'N')
-		t = cub3d->north;
+		t = &cub3d->north;
 	else if (wall.wall == 'W')
-		t = cub3d->west;
+		t = &cub3d->west;
 	else if (wall.wall == 'S')
-		t = cub3d->south;
+		t = &cub3d->south;
 	else
-		t = cub3d->east;
-	if (wall.wall == 'N')
-		color = 0x123456;
-	else if (wall.wall == 'W')
-		color = 0xA597C3;
-	else if (wall.wall == 'S')
-		color = 0x10F174;
-	else
-		color = 0x0F5C9A;
+		t = &cub3d->east;
+	//if (wall.wall == 'N')
+	//	color = 0x123456;
+	//else if (wall.wall == 'W')
+	//	color = 0xA597C3;
+	//else if (wall.wall == 'S')
+	//	color = 0x10F174;
+	//else
+	//	color = 0x0F5C9A;
 		//printf("%d < %d\n", j, cub3d->height);
-	while (j < (int)(cub3d->height / 2 - h))
+	j = 0;
+	while (j < h)
 	{
 		draw_pixel(i, j, cub3d->ceiling, cub3d);
 		j++;
 	}
-	while (j < cub3d->height / 2 + h && j < cub3d->height)
+	while (j < cub3d->height - h && j < cub3d->height)
 	{
-		draw_pixel(i, j, color/*texture(i / cub3d->width, j / cub3d->height, t)*/, cub3d);
+		//printf("j = %d h = %lf\n", j, h);
+		draw_pixel(i, j, texture(wall, (double)(j - h) / ((double)cub3d->height - 2 * h), t), cub3d);
 		j++;
 	}
 	while (j < cub3d->height)
@@ -227,8 +240,14 @@ int main()
 	cub3d.mlx = mlx_init();
 	cub3d.win = mlx_new_window(cub3d.mlx, 500, 500, "Test");
 	cub3d.img = mlx_new_image(cub3d.mlx, 500, 500);
-	//cub3d.north->ptr = mlx_xpm_file_to_image(cub3d.mlx, "./coucou.xpm", );
-	//cub3d.north->draw = (unsigned int *)mlx_get_data_addr(cub3d.north->ptr, &trash, &trash, &trash);
+	cub3d.north.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/north.xpm", &cub3d.north.width, &cub3d.north.height);
+	cub3d.north.draw = (unsigned int *)mlx_get_data_addr(cub3d.north.ptr, &trash, &trash, &trash);
+	cub3d.south.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/south.xpm", &cub3d.south.width, &cub3d.south.height);
+	cub3d.south.draw = (unsigned int *)mlx_get_data_addr(cub3d.south.ptr, &trash, &trash, &trash);
+	cub3d.east.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/east.xpm", &cub3d.east.width, &cub3d.east.height);
+	cub3d.east.draw = (unsigned int *)mlx_get_data_addr(cub3d.east.ptr, &trash, &trash, &trash);
+	cub3d.west.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/west.xpm", &cub3d.west.width, &cub3d.west.height);
+	cub3d.west.draw = (unsigned int *)mlx_get_data_addr(cub3d.west.ptr, &trash, &trash, &trash);
 	cub3d.draw = (unsigned int *)mlx_get_data_addr(cub3d.img, &trash, &trash, &trash);
 	//cub3d.draw[52] = 0xFF00FF;
 	cub3d.ceiling = 0xb03a2e;
