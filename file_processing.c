@@ -9,6 +9,118 @@ void		my_free(void *pointer)
 	}
 }
 
+int			space(char *line, int i)
+{
+	if (!line)
+		return (-2);
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (line[i])
+		return (i);
+	return (-1);
+}
+
+void		check_processed(t_cub3d *cub3d)
+{
+	if (!cub3d->width || !cub3d->height)
+		error(DESC_MISSING, "resolution");
+	if (!cub3d->ceiling)
+		error(DESC_MISSING, "ceiling");
+	if (!cub3d->floor)
+		error(DESC_MISSING, "floor");
+	if (!cub3d->sprite)
+		error(DESC_MISSING, "sprite");
+	if (!cub3d->east.ptr)
+		error(DESC_MISSING, "east texture");
+	if (!cub3d->north.ptr)
+		error(DESC_MISSING, "north texture");
+	if (!cub3d->south.ptr)
+		error(DESC_MISSING, "south texture");
+	if (!cub3d->west.ptr)
+		error(DESC_MISSING, "west texture");
+}
+
+void		init_cub3d(t_cub3d *cub3d)
+{
+	cub3d->width = 0;
+	cub3d->height = 0;
+	cub3d->floor = 0;
+	cub3d->ceiling = 0;
+	cub3d->skins = NULL;
+	cub3d->east.ptr = NULL;
+	cub3d->north.ptr = NULL;
+	cub3d->south.ptr = NULL;
+	cub3d->west.ptr = NULL;
+}
+
+void		file_processing(int fd, t_cub3d *cub3d)
+{
+	int		gnl;
+	char	*line;
+	int		i;
+
+	printf("2\n");
+	init_cub3d(cub3d);
+	line = NULL;
+	printf("3\n");
+
+	gnl = get_next_line(fd, &line);
+	printf("4\n");
+
+	while (gnl > 0)
+	{
+		printf("line = %s\n", line);
+		i = 0;
+		i = space(line, i);
+		if (i >= 0 && line[i] == 'C')
+			fp_ceiling(cub3d, line, ++i);
+		else if (i >= 0 && line[i] == 'E')
+			fp_east(cub3d, line, ++i);
+		else if (i >= 0 && line[i] == 'F')
+			fp_floor(cub3d, line, ++i);
+		else if (i >= 0 && line[i] == 'N')
+			fp_north(cub3d, line, ++i);
+		else if (i >= 0 && line[i] == 'R')
+			fp_resolution(cub3d, line, ++i);
+		else if (i >= 0 && line[i] == 'S')
+		{
+			if (line[i + 1] == 'O')
+				fp_south(cub3d, line, ++i);
+			else
+				fp_sprite(cub3d, line, ++i);
+		}
+		else if (i >= 0 && line[i] == 'W')
+			fp_west(cub3d, line, ++i);
+		else if (i >= 0 && line[i])
+			error(DESC_WRONG_CHAR, line);
+		my_free(line);
+		gnl = get_next_line(fd, &line);
+	printf("5\n");
+
+	}
+	printf("9\n");
+
+	if (gnl < 0)
+		error(DESC_GNL, "file processing");
+	check_processed(cub3d);
+}
+
+int main(void)
+{
+	int		fd;
+	t_cub3d	cub3d;
+
+	fd = open("process.cub", 'r');
+	printf("1\n");
+	cub3d.mlx = mlx_init();
+	if (fd > 0)
+		file_processing(fd, &cub3d);
+	else
+		printf("fd = %d\n", fd);
+	
+}
+
+/*
 //A faire plus tard = ranger chaque nouvelle ligne dans une liste chainee puis tout mettre dans un tableau
 void		mapping(int fd, t_cub3d *cub3d)
 {
@@ -45,6 +157,7 @@ void		mapping(int fd, t_cub3d *cub3d)
 	}
 	cub3d->map_x = (int)strlen(cub3d->map[0]);
 }
+*/
 /*
 int		main(void)
 {

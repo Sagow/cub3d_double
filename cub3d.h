@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/10/10 05:32:23 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/16 06:39:26 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,23 @@
 # include <string.h>
 # include "get_next_line/get_next_line.h"
 # include <fcntl.h>
+#include "mlx.h"
+#include "mlx_int.h"
 # ifndef M_PI
 #  define M_PI 3.14
 # endif
+# define MAP_OPEN "The map is not closed with walls."
+# define MAP_NO_PLAYER "No player detected in the map."
+# define MAP_WRONG_CHAR "Unexpected character in the map."
+# define MAP_SVRL_PLAYERS "A second player has been detected"
+# define DESC_WRONG_CHAR "Unexpected character in the description."
+# define DESC_INCOMPLETE "The description of one of the parameters is incomplete."
+# define DESC_ALREADY "This parameter has already been initialized."
+# define DESC_PATH "Wrong path."
+# define DESC_COLOR "The description of the color seems wrong."
+# define DESC_MISSING "At least one parameter is missing."
+# define DESC_GNL "There has been a problem in get_next_line."
+# define MALLOC_FAIL "There has been a problem during memory allocation."
 /*
 **angle's range [0;360[
 */
@@ -62,7 +76,7 @@ typedef struct		s_text
 typedef struct		s_sprite
 {
 	struct s_sprite	*closer;
-	t_text			image;
+	t_text			*image;
 	t_case			data;
 }					t_sprite;
 
@@ -86,6 +100,7 @@ typedef struct		s_cub3d
 	unsigned int	ceiling;
 	int				width;
 	int				height;
+	double			*distances;
 	int				fov;
 	t_obj			player;
 	t_sprite		*sprite;
@@ -107,9 +122,30 @@ void		intersect(t_case *spot, t_line beam, t_line wall);
 
 double		simplifier(double angle);
 double		dtor(double angle);
+double		rtod(double	rad);
+
 
 void	free_sprite(t_sprite *link);
-void	add_sprite(t_cub3d *cub3d, t_case spot, char type, double ray);
+void	add_sprite(t_cub3d *cub3d, t_case spot, char type);
+
+int			space(char *line, int i);
+
+void		fp_resolution(t_cub3d *cub3d, char *line, int i);
+
+void		fp_east(t_cub3d *cub3d, char *line, int i);
+void		fp_north(t_cub3d *cub3d, char *line, int i);
+void		fp_west(t_cub3d *cub3d, char *line, int i);
+void		fp_south(t_cub3d *cub3d, char *line, int i);
+
+void			fp_floor(t_cub3d *cub3d, char *line, int i);
+void			fp_ceiling(t_cub3d *cub3d, char *line, int i);
+
+void		fp_sprite(t_cub3d *cub3d, char *line, int i);
+
+
+
+void	error(char *message, char *place);
+//void test_verif_sprite(t_cub3d *cub3d);
 
 
 #endif

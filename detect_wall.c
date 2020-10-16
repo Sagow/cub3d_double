@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:02:24 by marina            #+#    #+#             */
-/*   Updated: 2020/10/10 05:34:28 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/13 12:16:55 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ double	ang_cal(int opp1, int opp2, int adj1, int adj2)
 	double	opp;
 	double	adj;
 
-	//return (atan2(adj))
 	opp = (opp1 > opp2) ? opp1 - opp2 : opp2 - opp1;
 	adj = (adj1 > adj2) ? adj1 - adj2 : adj2 - adj1;
 	return (180 * atan(opp / adj) / M_PI);
@@ -40,7 +39,7 @@ double	rtod(double	rad)
 }
 
 /*
-**travail du jour = remplacer la fonction en dessous par un truc avec atan2 ou DDA
+** says through which one of the 4 wall of a block the ray exits
 */
 char	right_wall(double ray, t_case spot, t_cub3d *cub3d)
 {
@@ -63,32 +62,7 @@ char	right_wall(double ray, t_case spot, t_cub3d *cub3d)
 /*
 ** right_wall indique sur lequel des 4 murs d'un bloc on va taper
 */
-/*
-char	right_wall(t_manip *cur, t_case spot)
-{
-	char	wall;
-	double	x;
-	double	y;
 
-	wall = 0;
-	x = spot.x * S_CUB;
-	y = spot.y * S_CUB;
-	if (ray >= ang_cal(cur->eye->p[1] + cur->eye->c[1] * S_CUB, S_CUB - 1 + y,
-	cur->eye->p[0] + cur->eye->c[0] * S_CUB, S_CUB - 1 + x))
-		wall++;
-	if (ray >= 90 + ang_cal(cur->eye->p[0] + cur->eye->c[0] * S_CUB, 0 + x,
-	cur->eye->p[1] + cur->eye->c[1] * S_CUB, S_CUB - 1 + y))
-		wall++;
-	if (ray >= 180 + ang_cal(cur->eye->p[1] + cur->eye->c[1] * S_CUB, 0 + y,
-	cur->eye->p[0] + cur->eye->c[0] * S_CUB, 0 + x))
-		wall++;
-	if (ray >= 270 + ang_cal(cur->eye->p[0] + cur->eye->c[0] * S_CUB, S_CUB - 1 + x,
-	cur->eye->p[1] + cur->eye->c[1] * S_CUB, 0 + y))
-		wall++;
-	wall = translate_letter(wall);
-	return (wall);
-}
-*/
 char	opposite_wall(char wall)
 {
 	if (wall == 'W')
@@ -131,17 +105,16 @@ void		intersect(t_case *spot, t_line beam, t_line wall)
 
 	denom = (beam.p1.x - beam.p2.x) * (wall.p1.y - wall.p2.y) - (beam.p1.y - beam.p2.y) *
 	(wall.p1.x - wall.p2.x);
-	//		printf("denom = %lf, num1 = %lf, num2 = %lf\n", denom, (beam.p1.x * beam.p2.y - beam.p1.y * beam.p2.x) * (wall.p2.x - wall.p2.x) -
-	//		(beam.p1.x - beam.p2.x) * (wall.p1.x * wall.p2.y - wall.p1.y * wall.p2.x), (beam.p1.x * beam.p2.y - beam.p1.y * beam.p2.x) * (wall.p2.y - wall.p2.y) -
-	//		(beam.p1.y - beam.p2.y) * (wall.p1.x * wall.p2.y - wall.p1.y * wall.p2.x));
 	spot->p.x = ((beam.p1.x * beam.p2.y - beam.p1.y * beam.p2.x) * (wall.p1.x - wall.p2.x) -
 	(beam.p1.x - beam.p2.x) * (wall.p1.x * wall.p2.y - wall.p1.y * wall.p2.x)) / denom;
 	spot->p.y = ((beam.p1.x * beam.p2.y - beam.p1.y * beam.p2.x) * (wall.p1.y - wall.p2.y) -
 	(beam.p1.y - beam.p2.y) * (wall.p1.x * wall.p2.y - wall.p1.y * wall.p2.x)) / denom;
-	//printf("wall 1 = %lf : %lf, wall 2 = %lf : %lf, %lf %lf\n", wall.p1.x, wall.p1.y, wall.p2.x, wall.p1.y, spot->px, spot->py);
-	//printf("beam 1 = %lf : %lf, beam 2 = %lf : %lf, %lf %lf\n", beam.p1.x, beam.p1.y, beam.p2.x, beam.p1.y, spot->px, spot->py);
 }
 
+/*
+** to find the distance between the player and the impact point of the current
+** ray and the wall, and the x;y of this point
+*/
 void		get_distance(t_case *spot, double ray, t_cub3d *cub3d)
 {
 	t_line		beam;
@@ -155,11 +128,9 @@ void		get_distance(t_case *spot, double ray, t_cub3d *cub3d)
 		wall = fill_t_line(spot->p.x, spot->p.y, spot->p.x + 1, spot->p.y);
 	else if (spot->wall == 'E')
 		wall = fill_t_line(spot->p.x + 1, spot->p.y, spot->p.x + 1, spot->p.y + 1);
-	else if (spot->wall == 'N')
+	else
 		wall = fill_t_line(spot->p.x + 1, spot->p.y + 1, spot->p.x, spot->p.y + 1);
-	//printf("Beam = %lf;%lf - %lf;%lf\nWall = %lf;%lf - %lf;%lf\n", beam.p1.x, beam.p1.y, beam.p2.x, beam.p2.y, wall.p1.x, wall.p1.y, wall.p2.x, wall.p2.y);
 	intersect(spot, beam, wall);
-	//printf("%f\n", ray);
 	spot->dist = hypot(cub3d->player.p.x - spot->p.x, cub3d->player.p.y - spot->p.y);
 }
 
@@ -183,7 +154,6 @@ t_case	reaching_obstacle(double ray, t_cub3d *cub3d)
 	char	wall;
 	t_case	spot;
 
-	//printf("1\n");
 	obs = 0;
 	spot.p.x = (int)cub3d->player.p.x;
 	spot.p.y = (int)cub3d->player.p.y;
@@ -191,21 +161,20 @@ t_case	reaching_obstacle(double ray, t_cub3d *cub3d)
 	cub3d->player.dir = get_first_wall(ray);
 	while (obs != '1')
 	{
-		if (cub3d->map[cub3d->map_y - 1 - (int)spot.p.y][(int)spot.p.x] != '0')
-			add_sprite(cub3d, spot, cub3d->map[cub3d->map_y - 1 - (int)spot.p.y][(int)spot.p.x], ray);
 		wall = right_wall(ray, spot, cub3d);
 		if (wall == 'E' || wall == 'W')
 			spot.p.x = spot.p.x + (wall == 'E' ? 1 : -1);
 		if (wall == 'N' || wall == 'S')
 			spot.p.y = spot.p.y + (wall == 'N' ? 1 : -1);
-		//printf("****%d ; %d\n", spot.x, spot.y);
 		spot.wall = opposite_wall(wall);
-		//printf("%d %d\n", cub3d->map_y - (int)spot.p.y, (int)spot.p.x);
 		obs = cub3d->map[cub3d->map_y - 1 - (int)spot.p.y][(int)spot.p.x];
-		//printf("%c", wall);
+		if (obs != '0' && obs != '1')
+			add_sprite(cub3d, spot, obs);
 	}
-	//printf("\n");
+	//printf("test\n");
+	
+	//test_verif_sprite(cub3d);
 	get_distance(&spot, ray, cub3d);
-	//printf("wall = %c\n", spot.wall);
+	//printf("test2\n");
 	return (spot);
 }
