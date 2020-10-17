@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/10/16 06:39:26 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/17 03:20:54 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,51 @@
 **angle's range [0;360[
 */
 
-typedef struct	s_pos
+typedef struct		s_fp_map
 {
-	double		x;
-	double		y;
-}				t_pos;
+	struct s_fp_map	*next;
+	char			*line;
+}					t_fp_map;
 
-typedef struct	s_obj
-{
-	t_pos		p;
-	double		ang;
-	char		dir;
-}				t_obj;
 
-typedef struct	s_case
+typedef struct		s_pixel
 {
-	char		wall;
-	double		dist;
-	t_pos		p;
-}				t_case;
+	unsigned char	b;
+	unsigned char	g;
+	unsigned char	r;
+	unsigned char	a;
+}					t_pixel;
 
-typedef struct	s_line
+typedef struct		s_pos
 {
-	t_pos		p1;
-	t_pos		p2;
-}				t_line;
+	double			x;
+	double			y;
+}					t_pos;
+
+typedef struct		s_obj
+{
+	t_pos			p;
+	double			ang;
+	char			dir;
+}					t_obj;
+
+typedef struct		s_case
+{
+	char			wall;
+	double			dist;
+	t_pos			p;
+}					t_case;
+
+typedef struct		s_line
+{
+	t_pos			p1;
+	t_pos			p2;
+}					t_line;
 
 typedef struct		s_text
 {
 	void			*ptr;
-	unsigned int	*draw;
+	t_pixel			*draw;
 	int				width;
 	int				height;
 }					t_text;
@@ -91,13 +106,13 @@ typedef struct		s_cub3d
 	void			*mlx;
 	void			*win;
 	void			*img;
-	unsigned int	*draw;
+	t_pixel			*draw;
 	t_text			north;
 	t_text			west;
 	t_text			south;
 	t_text			east;
-	unsigned int	floor;
-	unsigned int	ceiling;
+	t_pixel			floor;
+	t_pixel			ceiling;
 	int				width;
 	int				height;
 	double			*distances;
@@ -110,41 +125,41 @@ typedef struct		s_cub3d
 	int				map_y;
 }					t_cub3d;
 
-void		draw_pixel(int x, int y, unsigned int colour, t_cub3d *cub3d);
-void		aerial(t_cub3d *cub3d);
-t_line		fill_t_line(double a, double b, double c, double d);
+void				draw_pixel(int x, int y, t_pixel colour, t_cub3d *cub3d);
+void				aerial(t_cub3d *cub3d);
+t_line				fill_t_line(double a, double b, double c, double d);
 
-void		mapping(int fd, t_cub3d *cub3d);
-void		my_free(void *pointer);
+void				mapping(int fd, t_cub3d *cub3d);
+void				my_free(void *pointer);
 
-t_case		reaching_obstacle(double ray, t_cub3d *cub3d);
-void		intersect(t_case *spot, t_line beam, t_line wall);
+t_case				reaching_obstacle(double ray, t_cub3d *cub3d);
+void				intersect(t_case *spot, t_line beam, t_line wall);
 
-double		simplifier(double angle);
-double		dtor(double angle);
-double		rtod(double	rad);
+double				simplifier(double angle);
+double				dtor(double angle);
+double				rtod(double	rad);
 
+void				free_sprite(t_sprite *link);
+void				add_sprite(t_cub3d *cub3d, t_case spot, char type);
 
-void	free_sprite(t_sprite *link);
-void	add_sprite(t_cub3d *cub3d, t_case spot, char type);
+int					space(char *line, int i);
 
-int			space(char *line, int i);
+void				fp_resolution(t_cub3d *cub3d, char *line, int i);
 
-void		fp_resolution(t_cub3d *cub3d, char *line, int i);
+void				fp_east(t_cub3d *cub3d, char *line, int i);
+void				fp_north(t_cub3d *cub3d, char *line, int i);
+void				fp_west(t_cub3d *cub3d, char *line, int i);
+void				fp_south(t_cub3d *cub3d, char *line, int i);
 
-void		fp_east(t_cub3d *cub3d, char *line, int i);
-void		fp_north(t_cub3d *cub3d, char *line, int i);
-void		fp_west(t_cub3d *cub3d, char *line, int i);
-void		fp_south(t_cub3d *cub3d, char *line, int i);
+void				fp_floor(t_cub3d *cub3d, char *line, int i);
+void				fp_ceiling(t_cub3d *cub3d, char *line, int i);
 
-void			fp_floor(t_cub3d *cub3d, char *line, int i);
-void			fp_ceiling(t_cub3d *cub3d, char *line, int i);
+void				fp_sprite(t_cub3d *cub3d, char *line, int i);
 
-void		fp_sprite(t_cub3d *cub3d, char *line, int i);
+void				fp_map(t_cub3d *cub3d, int fd, char *line, int i);
 
-
-
-void	error(char *message, char *place);
+void				check_processed(t_cub3d *cub3d);
+void				ft_error(char *message, char *place);
 //void test_verif_sprite(t_cub3d *cub3d);
 
 

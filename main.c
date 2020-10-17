@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:53:30 by marina            #+#    #+#             */
-/*   Updated: 2020/10/16 06:07:02 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/17 00:40:59 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ double	simplifier(double angle)
 	return (angle);
 }
 
-unsigned int	texture(t_case	wall, double y, t_text *text)
+t_pixel	texture(t_case	wall, double y, t_text *text)
 {
 	double	x;
 
@@ -54,7 +54,7 @@ unsigned int	texture(t_case	wall, double y, t_text *text)
 	
 }*/
 
-void	draw_pixel(int x, int y, unsigned int colour, t_cub3d *cub3d)
+void	draw_pixel(int x, int y, t_pixel colour, t_cub3d *cub3d)
 {
 	if (x >= 0 && x < cub3d->width && y >= 0 && y < cub3d->height && colour)
 		cub3d->draw[y * cub3d->width + (cub3d->width - 1 - x)] = colour;
@@ -93,7 +93,7 @@ void	draw_col(t_cub3d *cub3d, t_case wall, int i)
 	}
 }
 
-unsigned int	skin_pixel(t_cub3d *cub3d, double ray, double y)
+t_pixel	skin_pixel(t_cub3d *cub3d, double ray, double y)
 {
 	double	ang;
 	double	x;
@@ -137,7 +137,7 @@ void		draw_sprites(t_cub3d *cub3d, double ray, int i)
 		draw_sprites(cub3d, ray, i);
 }
 
-void	blackout(t_cub3d *cub3d, unsigned int color)
+void	blackout(t_cub3d *cub3d, t_pixel color)
 {
 	int	i;
 
@@ -215,10 +215,10 @@ void	init_skins(t_cub3d *cub3d, char *path, char *path2)
 		return ;
 	cub3d->skins[0].type = '2';
 	cub3d->skins[0].skin.ptr = mlx_xpm_file_to_image(cub3d->mlx, path, &cub3d->skins[0].skin.width, &cub3d->skins[0].skin.height);
-	cub3d->skins[0].skin.draw = (unsigned int *)mlx_get_data_addr(cub3d->skins[0].skin.ptr, &trash, &trash, &trash);
+	cub3d->skins[0].skin.draw = (t_pixel *)mlx_get_data_addr(cub3d->skins[0].skin.ptr, &trash, &trash, &trash);
 	cub3d->skins[1].type = '3';
 	cub3d->skins[1].skin.ptr = mlx_xpm_file_to_image(cub3d->mlx, path2, &cub3d->skins[1].skin.width, &cub3d->skins[1].skin.height);
-	cub3d->skins[1].skin.draw = (unsigned int *)mlx_get_data_addr(cub3d->skins[1].skin.ptr, &trash, &trash, &trash);
+	cub3d->skins[1].skin.draw = (t_pixel *)mlx_get_data_addr(cub3d->skins[1].skin.ptr, &trash, &trash, &trash);
 	cub3d->skins[2].type = 0;
 }
 
@@ -239,14 +239,14 @@ int main()
 	cub3d.win = mlx_new_window(cub3d.mlx, 500, 500, "Test");
 	cub3d.img = mlx_new_image(cub3d.mlx, 500, 500);
 	cub3d.north.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/north.xpm", &cub3d.north.width, &cub3d.north.height);
-	cub3d.north.draw = (unsigned int *)mlx_get_data_addr(cub3d.north.ptr, &trash, &trash, &trash);
+	cub3d.north.draw = (t_pixel *)mlx_get_data_addr(cub3d.north.ptr, &trash, &trash, &trash);
 	cub3d.south.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/south.xpm", &cub3d.south.width, &cub3d.south.height);
-	cub3d.south.draw = (unsigned int *)mlx_get_data_addr(cub3d.south.ptr, &trash, &trash, &trash);
+	cub3d.south.draw = (t_pixel *)mlx_get_data_addr(cub3d.south.ptr, &trash, &trash, &trash);
 	cub3d.east.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/east.xpm", &cub3d.east.width, &cub3d.east.height);
-	cub3d.east.draw = (unsigned int *)mlx_get_data_addr(cub3d.east.ptr, &trash, &trash, &trash);
+	cub3d.east.draw = (t_pixel *)mlx_get_data_addr(cub3d.east.ptr, &trash, &trash, &trash);
 	cub3d.west.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/west.xpm", &cub3d.west.width, &cub3d.west.height);
-	cub3d.west.draw = (unsigned int *)mlx_get_data_addr(cub3d.west.ptr, &trash, &trash, &trash);
-	cub3d.draw = (unsigned int *)mlx_get_data_addr(cub3d.img, &trash, &trash, &trash);
+	cub3d.west.draw = (t_pixel *)mlx_get_data_addr(cub3d.west.ptr, &trash, &trash, &trash);
+	cub3d.draw = (t_pixel *)mlx_get_data_addr(cub3d.img, &trash, &trash, &trash);
 	init_skins(&cub3d, "./sprite/sprite1.xpm", "./textures/south.xpm");
 	cub3d.ceiling = 0xb03a2e;
 	cub3d.floor = 0x6c3483;

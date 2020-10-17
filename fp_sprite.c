@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 06:05:41 by marina            #+#    #+#             */
-/*   Updated: 2020/10/16 07:35:34 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/17 00:41:40 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ void		fp_sprite(t_cub3d *cub3d, char *line, int i)
 	
 	size = 1;
 	if (cub3d->skins)
-		error(DESC_ALREADY, "sprite");
+		ft_error(DESC_ALREADY, "sprite");
 	if (!(cub3d->skins = malloc(sizeof(t_skin *) * 2)))
-		error(MALLOC_FAIL, "sprite");
+		ft_error(MALLOC_FAIL, "sprite");
 	if ((i = space(line, i)) == -1)
-		error(DESC_INCOMPLETE, "sprite");
+		ft_error(DESC_INCOMPLETE, "sprite");
 	while (line[i + size] && line[i + size] != ' ')
 		size++;
 	if (!(path = malloc(sizeof(char) * (size + 1))))
-		error(MALLOC_FAIL, "sprite");
+		ft_error(MALLOC_FAIL, "sprite");
 	size = 0;
 	while (line[i] && line[i] != ' ')
 	{
@@ -39,10 +39,10 @@ void		fp_sprite(t_cub3d *cub3d, char *line, int i)
 	}
 	path[size] = '\0';
 	if ((i = space(line, i)) != -1)
-		error(DESC_WRONG_CHAR, "sprite");
+		ft_error(DESC_WRONG_CHAR, "sprite");
 	cub3d->skins[0].type = '2';
 	cub3d->skins[0].skin.ptr = mlx_xpm_file_to_image(cub3d->mlx, path, &cub3d->skins[0].skin.width, &cub3d->skins[0].skin.height);
-	cub3d->skins[0].skin.draw = (unsigned int *)mlx_get_data_addr(cub3d->skins[0].skin.ptr, &trash, &trash, &trash);
+	cub3d->skins[0].skin.draw = (t_pixel *)mlx_get_data_addr(cub3d->skins[0].skin.ptr, &trash, &trash, &trash);
 	cub3d->skins[1].type = 0;
 	my_free(path);
 }
