@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/10/17 03:20:54 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/18 04:58:29 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define MAP_OPEN "The map is not closed with walls."
 # define MAP_NO_PLAYER "No player detected in the map."
 # define MAP_WRONG_CHAR "Unexpected character in the map."
-# define MAP_SVRL_PLAYERS "A second player has been detected"
+# define MAP_SVRL_PLAYERS "A second player has been detected in the map"
 # define DESC_WRONG_CHAR "Unexpected character in the description."
 # define DESC_INCOMPLETE "The description of one of the parameters is incomplete."
 # define DESC_ALREADY "This parameter has already been initialized."
@@ -144,6 +144,8 @@ void				add_sprite(t_cub3d *cub3d, t_case spot, char type);
 
 int					space(char *line, int i);
 
+void				file_processing(int fd, t_cub3d *cub3d);
+
 void				fp_resolution(t_cub3d *cub3d, char *line, int i);
 
 void				fp_east(t_cub3d *cub3d, char *line, int i);
@@ -160,6 +162,8 @@ void				fp_map(t_cub3d *cub3d, int fd, char *line, int i);
 
 void				check_processed(t_cub3d *cub3d);
 void				ft_error(char *message, char *place);
+
+t_pixel				pixel(unsigned int color);
 //void test_verif_sprite(t_cub3d *cub3d);
 
 

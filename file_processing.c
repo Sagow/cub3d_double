@@ -52,6 +52,8 @@ void		init_cub3d(t_cub3d *cub3d)
 	cub3d->south.ptr = NULL;
 	cub3d->west.ptr = NULL;
 	cub3d->map = NULL;
+	cub3d->player.p.x = -1;
+	cub3d->player.p.y = -1;
 }
 
 void		file_processing(int fd, t_cub3d *cub3d)
@@ -91,14 +93,12 @@ void		file_processing(int fd, t_cub3d *cub3d)
 		else if (i >= 0 && line[i])
 			ft_error(DESC_WRONG_CHAR, line);
 		my_free(line);
-		if (cub3d->map)
-			printf("Fin = /%p/\n", cub3d->map[0]);
 		gnl = get_next_line(fd, &line);
 	}
 	if (gnl < 0)
 		ft_error(DESC_GNL, "file processing");
 }
-
+/*
 void	test_print(t_cub3d *cub3d)
 {
 	printf("floor (%d) %d, %d, %d\n", cub3d->floor.a, cub3d->floor.r, cub3d->floor.g, cub3d->floor.b);
@@ -111,7 +111,7 @@ void	test_map(t_cub3d *cub3d)
 	int i;
 
 	i = 0;
-	while (cub3d->map[i])
+	while (i < cub3d->map_y)
 	{
 		printf("|%s| %d\n", cub3d->map[i], i);
 		i++;
@@ -129,10 +129,9 @@ int main(void)
 		file_processing(fd, &cub3d);
 	else
 		printf("fd = %d\n", fd);
-	printf("|%s|\n", cub3d.map[0]);
 	test_print(&cub3d);
 	test_map(&cub3d);
-}
+}*/
 
 /*
 //A faire plus tard = ranger chaque nouvelle ligne dans une liste chainee puis tout mettre dans un tableau

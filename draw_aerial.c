@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 21:17:36 by marina            #+#    #+#             */
-/*   Updated: 2020/10/13 11:44:57 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/18 02:02:11 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 #define COLOR_WALL 0xFFA0A0A0
 #define COLOR_BEAM 0xFFFFFFFF
 #define COLOR_ERROR 0xFFFF0000
+
+t_pixel	pixel(unsigned int color)
+{
+	t_pixel		res;
+
+	res.b = color % 256;
+	res.g = color / 256 % 256;
+	res.r = color / 256 / 256 % 256;
+	res.a = color / 256 / 256 / 256 % 256;
+	return (res);
+}
 
 void	draw_map(t_cub3d *cub3d, double factor)
 {
@@ -30,11 +41,11 @@ void	draw_map(t_cub3d *cub3d, double factor)
 		{
 			c = cub3d->map[(int)(y / factor)][(int)(x / factor)];
 			if (c == '0')
-				draw_pixel(cub3d->width - x, y, COLOR_EMPTY, cub3d);
+				draw_pixel(cub3d->width - x, y, pixel(COLOR_EMPTY), cub3d);
 			else if (c == '1')
-				draw_pixel(cub3d->width - x, y, COLOR_WALL, cub3d);
+				draw_pixel(cub3d->width - x, y, pixel(COLOR_WALL), cub3d);
 			else
-				draw_pixel(cub3d->width - x, y, COLOR_ERROR, cub3d);
+				draw_pixel(cub3d->width - x, y, pixel(COLOR_ERROR), cub3d);
 			y++;
 		}
 		x++;
@@ -55,7 +66,7 @@ void	draw_line(t_line p, unsigned int color, t_cub3d *cub3d)
 	dy /= steps;
 	i = -1;
 	while (++i < (int)steps)
-		draw_pixel(cub3d->width - (int)(p.p1.x + dx * i), (int)(p.p1.y + dy * i), color, cub3d);
+		draw_pixel(cub3d->width - (int)(p.p1.x + dx * i), (int)(p.p1.y + dy * i), pixel(color), cub3d);
 }
 
 void	draw_beams(t_cub3d *cub3d, double factor)
@@ -74,7 +85,7 @@ void	draw_beams(t_cub3d *cub3d, double factor)
 		p.p1.y = ((cub3d->map_y) - (cub3d->player.p.y)) * factor;
 		p.p2.x = (p.p1.x / factor + cos(dtor(-ray)) * cub3d->distances[i]) * factor;
 		p.p2.y = (p.p1.y / factor + sin(dtor(-ray)) * cub3d->distances[i]) * factor;
-		draw_line(p, 0xFFFFFF, cub3d);
+		draw_line(p, 0xAFFFFFFE, cub3d);
 		i++;
 	}
 }

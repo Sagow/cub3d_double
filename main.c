@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:53:30 by marina            #+#    #+#             */
-/*   Updated: 2020/10/17 00:40:59 by marina           ###   ########.fr       */
+/*   Updated: 2020/10/18 05:10:01 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_pixel	texture(t_case	wall, double y, t_text *text)
 
 void	draw_pixel(int x, int y, t_pixel colour, t_cub3d *cub3d)
 {
-	if (x >= 0 && x < cub3d->width && y >= 0 && y < cub3d->height && colour)
+	if (x >= 0 && x < cub3d->width && y >= 0 && y < cub3d->height && colour.a)
 		cub3d->draw[y * cub3d->width + (cub3d->width - 1 - x)] = colour;
 }
 
@@ -106,7 +106,7 @@ t_pixel	skin_pixel(t_cub3d *cub3d, double ray, double y)
 		x += 0.5;
 
 	if (x > 1 || x < 0)
-		return (0);
+		return (pixel(0));
 	return (cub3d->sprite->image->draw[((int)(y * cub3d->sprite->image->height) * cub3d->sprite->image->width + (int)(x * cub3d->sprite->image->width))]);
 }
 
@@ -206,7 +206,7 @@ int		key_press(int key_pressed, t_cub3d *cub3d)
 	mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img, 0, 0);
 	return (1);
 }
-
+/*
 void	init_skins(t_cub3d *cub3d, char *path, char *path2)
 {
 	int	trash;
@@ -221,23 +221,21 @@ void	init_skins(t_cub3d *cub3d, char *path, char *path2)
 	cub3d->skins[1].skin.draw = (t_pixel *)mlx_get_data_addr(cub3d->skins[1].skin.ptr, &trash, &trash, &trash);
 	cub3d->skins[2].type = 0;
 }
-
+*/
 int main()
 {
 	t_cub3d			cub3d;
 	int				fd;
 	int				trash;
 
-	cub3d.player.p.x = 1.5;
-	cub3d.player.p.y = 1.5;
-	cub3d.player.ang = 0;
-	if ((fd = open("test.cub", 'r')) < 0)
+	if ((fd = open("process.cub", 'r')) < 0)
 		return (-1);
-	mapping(fd, &cub3d);
-	//A faire plus tard = test erreur mapping et qui ferme proprement
 	cub3d.mlx = mlx_init();
-	cub3d.win = mlx_new_window(cub3d.mlx, 500, 500, "Test");
-	cub3d.img = mlx_new_image(cub3d.mlx, 500, 500);
+	file_processing(fd, &cub3d);
+	cub3d.win = mlx_new_window(cub3d.mlx, cub3d.width, cub3d.height, "Test");
+	cub3d.img = mlx_new_image(cub3d.mlx, cub3d.width, cub3d.height);
+	cub3d.draw = (t_pixel *)mlx_get_data_addr(cub3d.img, &trash, &trash, &trash);
+	/*
 	cub3d.north.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/north.xpm", &cub3d.north.width, &cub3d.north.height);
 	cub3d.north.draw = (t_pixel *)mlx_get_data_addr(cub3d.north.ptr, &trash, &trash, &trash);
 	cub3d.south.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/south.xpm", &cub3d.south.width, &cub3d.south.height);
@@ -246,21 +244,21 @@ int main()
 	cub3d.east.draw = (t_pixel *)mlx_get_data_addr(cub3d.east.ptr, &trash, &trash, &trash);
 	cub3d.west.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/west.xpm", &cub3d.west.width, &cub3d.west.height);
 	cub3d.west.draw = (t_pixel *)mlx_get_data_addr(cub3d.west.ptr, &trash, &trash, &trash);
-	cub3d.draw = (t_pixel *)mlx_get_data_addr(cub3d.img, &trash, &trash, &trash);
 	init_skins(&cub3d, "./sprite/sprite1.xpm", "./textures/south.xpm");
-	cub3d.ceiling = 0xb03a2e;
-	cub3d.floor = 0x6c3483;
+	cub3d.ceiling = pixel(0xFFb03a2e);
+	cub3d.floor = pixel(0xFF6c3483);
 	cub3d.width = 500;
 	cub3d.height = 500;
+	*/
 	if (!(cub3d.distances = malloc(sizeof(double) * cub3d.width)))
 		return (-1);
 	cub3d.fov = 60;
 	cub3d.sprite = NULL;
 	mlx_hook(cub3d.win, 2, (1L<<0), &key_press, &cub3d);
-	printf("sprite %c : %s\nsprite %c : %s\n", cub3d.skins[0].type, cub3d.skins[0].skin.ptr ? "oui" : "non", cub3d.skins[1].type, cub3d.skins[1].skin.ptr ? "oui" : "non");
 	update(&cub3d);
 	aerial(&cub3d);
 	mlx_put_image_to_window(cub3d.mlx, cub3d.win, cub3d.img, 0, 0);
+	printf(":)\n");
 	mlx_loop(cub3d.mlx);
 	return (0);
 }
