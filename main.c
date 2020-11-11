@@ -6,21 +6,11 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:53:30 by marina            #+#    #+#             */
-/*   Updated: 2020/10/18 05:10:01 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/11 06:40:35 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-#define DEPARTX 2
-#define DEPARTY 2
-#define PIC_WIDTH 500
-#define PLAYER_SCREEN 200
-#define UNITY 128
-#define KEY_Z 119
-#define KEY_Q 97
-#define KEY_S 115
-#define KEY_D 100
-#define SPEED 10
+#include "includes/cub3d.h"
 
 double	simplifier(double angle)
 {
@@ -182,83 +172,71 @@ int		key_press(int key_pressed, t_cub3d *cub3d)
 	if (key_pressed == 65363)
 		cub3d->player.ang = simplifier(cub3d->player.ang - 1);
 	if (key_pressed == KEY_Z)
-	{
-		cub3d->player.p.x += cos(dtor(cub3d->player.ang)) / SPEED;
-		cub3d->player.p.y += sin(dtor(cub3d->player.ang)) / SPEED;
-	}
+		move_forward(cub3d);
 	if (key_pressed == KEY_S)
-	{
-		cub3d->player.p.x -= cos(dtor(cub3d->player.ang)) / SPEED;
-		cub3d->player.p.y -= sin(dtor(cub3d->player.ang)) / SPEED;
-	}
+		move_backward(cub3d);
 	if (key_pressed == KEY_Q)
-	{
-		cub3d->player.p.x -= sin(dtor(cub3d->player.ang)) / SPEED;
-		cub3d->player.p.y += cos(dtor(cub3d->player.ang)) / SPEED;
-	}
+		move_left(cub3d);
 	if (key_pressed == KEY_D)
-	{
-		cub3d->player.p.x += sin(dtor(cub3d->player.ang)) / SPEED;
-		cub3d->player.p.y -= cos(dtor(cub3d->player.ang)) / SPEED;
-	}
+		move_right(cub3d);
+	if (key_pressed == KEY_M)
+		cub3d->show_map++;
 	update(cub3d);
-	aerial(cub3d);
+	if (cub3d->show_map % 2)
+		aerial(cub3d);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->img, 0, 0);
 	return (1);
 }
-/*
-void	init_skins(t_cub3d *cub3d, char *path, char *path2)
-{
-	int	trash;
 
-	if (!(cub3d->skins = malloc(sizeof(t_skin *) * 3)))
-		return ;
-	cub3d->skins[0].type = '2';
-	cub3d->skins[0].skin.ptr = mlx_xpm_file_to_image(cub3d->mlx, path, &cub3d->skins[0].skin.width, &cub3d->skins[0].skin.height);
-	cub3d->skins[0].skin.draw = (t_pixel *)mlx_get_data_addr(cub3d->skins[0].skin.ptr, &trash, &trash, &trash);
-	cub3d->skins[1].type = '3';
-	cub3d->skins[1].skin.ptr = mlx_xpm_file_to_image(cub3d->mlx, path2, &cub3d->skins[1].skin.width, &cub3d->skins[1].skin.height);
-	cub3d->skins[1].skin.draw = (t_pixel *)mlx_get_data_addr(cub3d->skins[1].skin.ptr, &trash, &trash, &trash);
-	cub3d->skins[2].type = 0;
+char	arguments(int ac, char **av)
+{
+	char	*cub;
+
+	if (ac < 2)
+		ft_error(ARG_FEW, "the arguments");
+	if (ac > 3)
+		ft_error(ARG_MANY, "the call just above");
+	cub = strstr(av[1], ".cub");
+	if (!cub)
+		ft_error(ARG_CUB, av[1]);
+	if (strcmp(cub, ".cub") != 0)
+		ft_error(ARG_CUB, av[1]);
+	if (ac == 3)
+	{
+		if (strcmp(av[2], "--save") == 0)
+			return (1);
+		ft_error(ARG_SAVE, av[2]);
+	}
+	return (0);
 }
-*/
-int main()
+
+int main(int argc, char **argv)
 {
 	t_cub3d			cub3d;
 	int				fd;
 	int				trash;
 
-	if ((fd = open("process.cub", 'r')) < 0)
-		return (-1);
+	cub3d.save = arguments(argc, argv);
+	if ((fd = open(argv[1], 'r')) < 0)
+		ft_error(OPEN_FAIL, argv[1]);
 	cub3d.mlx = mlx_init();
 	file_processing(fd, &cub3d);
-	cub3d.win = mlx_new_window(cub3d.mlx, cub3d.width, cub3d.height, "Test");
+	cub3d.win = mlx_new_window(cub3d.mlx, cub3d.width, cub3d.height, "Cub3d");
 	cub3d.img = mlx_new_image(cub3d.mlx, cub3d.width, cub3d.height);
 	cub3d.draw = (t_pixel *)mlx_get_data_addr(cub3d.img, &trash, &trash, &trash);
-	/*
-	cub3d.north.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/north.xpm", &cub3d.north.width, &cub3d.north.height);
-	cub3d.north.draw = (t_pixel *)mlx_get_data_addr(cub3d.north.ptr, &trash, &trash, &trash);
-	cub3d.south.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/south.xpm", &cub3d.south.width, &cub3d.south.height);
-	cub3d.south.draw = (t_pixel *)mlx_get_data_addr(cub3d.south.ptr, &trash, &trash, &trash);
-	cub3d.east.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/east.xpm", &cub3d.east.width, &cub3d.east.height);
-	cub3d.east.draw = (t_pixel *)mlx_get_data_addr(cub3d.east.ptr, &trash, &trash, &trash);
-	cub3d.west.ptr = mlx_xpm_file_to_image(cub3d.mlx, "./textures/west.xpm", &cub3d.west.width, &cub3d.west.height);
-	cub3d.west.draw = (t_pixel *)mlx_get_data_addr(cub3d.west.ptr, &trash, &trash, &trash);
-	init_skins(&cub3d, "./sprite/sprite1.xpm", "./textures/south.xpm");
-	cub3d.ceiling = pixel(0xFFb03a2e);
-	cub3d.floor = pixel(0xFF6c3483);
-	cub3d.width = 500;
-	cub3d.height = 500;
-	*/
 	if (!(cub3d.distances = malloc(sizeof(double) * cub3d.width)))
 		return (-1);
 	cub3d.fov = 60;
 	cub3d.sprite = NULL;
+	cub3d.show_map = 0;
 	mlx_hook(cub3d.win, 2, (1L<<0), &key_press, &cub3d);
 	update(&cub3d);
-	aerial(&cub3d);
-	mlx_put_image_to_window(cub3d.mlx, cub3d.win, cub3d.img, 0, 0);
-	printf(":)\n");
-	mlx_loop(cub3d.mlx);
+	if (!cub3d.save)
+	{
+		mlx_put_image_to_window(cub3d.mlx, cub3d.win, cub3d.img, 0, 0);
+		mlx_loop(cub3d.mlx);
+	}
+	else
+		printf("ici il faut faire le save !\n");
 	return (0);
 }

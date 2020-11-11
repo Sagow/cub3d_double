@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/16 03:44:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:39:41 by marina           ###   ########.fr       */
+/*   Created: 2019/11/09 00:08:44 by mdelwaul          #+#    #+#             */
+/*   Updated: 2019/11/21 20:37:00 by mdelwaul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "libft.h"
 
-void	ft_error(char *message, char *place)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	printf("Error\n%s (in %s)\n", message, place);
-	exit(0);
+	unsigned char *temp;
+
+	temp = (unsigned char *)s;
+	while (n > 0)
+	{
+		if (*temp == (unsigned char)c)
+			return (temp);
+		temp++;
+		n--;
+	}
+	return (0);
 }

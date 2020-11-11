@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/16 03:44:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:39:41 by marina           ###   ########.fr       */
+/*   Created: 2019/11/17 21:37:54 by mdelwaul          #+#    #+#             */
+/*   Updated: 2019/11/17 21:42:53 by mdelwaul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "libft.h"
 
-void	ft_error(char *message, char *place)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	printf("Error\n%s (in %s)\n", message, place);
-	exit(0);
+	if (!lst)
+		return ;
+	if (lst->next != NULL)
+		ft_lstiter((lst->next), f);
+	(*f)(lst->content);
 }

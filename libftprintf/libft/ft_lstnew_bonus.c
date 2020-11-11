@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/16 03:44:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:39:41 by marina           ###   ########.fr       */
+/*   Created: 2019/11/16 21:19:07 by marina            #+#    #+#             */
+/*   Updated: 2019/11/17 19:12:29 by mdelwaul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "libft.h"
 
-void	ft_error(char *message, char *place)
+t_list	*ft_lstnew(void *content)
 {
-	printf("Error\n%s (in %s)\n", message, place);
-	exit(0);
+	t_list	*chainlink;
+
+	if (!(chainlink = (t_list*)malloc(sizeof(chainlink))))
+		return (NULL);
+	chainlink->content = content;
+	chainlink->next = NULL;
+	return (chainlink);
 }

@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/16 03:44:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:39:41 by marina           ###   ########.fr       */
+/*   Created: 2019/11/08 03:38:30 by mdelwaul          #+#    #+#             */
+/*   Updated: 2019/11/21 20:37:29 by mdelwaul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "libft.h"
 
-void	ft_error(char *message, char *place)
+void	ft_putchar_fd(char c, int fd)
 {
-	printf("Error\n%s (in %s)\n", message, place);
-	exit(0);
+	write(fd, &c, 1);
 }

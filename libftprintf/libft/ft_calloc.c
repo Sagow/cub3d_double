@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/16 03:44:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:39:41 by marina           ###   ########.fr       */
+/*   Created: 2019/11/09 01:04:10 by mdelwaul          #+#    #+#             */
+/*   Updated: 2019/11/21 20:35:54 by mdelwaul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "libft.h"
 
-void	ft_error(char *message, char *place)
+void	*ft_calloc(size_t count, size_t size)
 {
-	printf("Error\n%s (in %s)\n", message, place);
-	exit(0);
+	unsigned char	*ptr;
+	size_t			i;
+
+	i = 0;
+	if (!(ptr = malloc(count * size)))
+		return (0);
+	while (i < (count * size))
+	{
+		ptr[i] = 0;
+		i++;
+	}
+	return (ptr);
 }

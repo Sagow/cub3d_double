@@ -6,15 +6,15 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 21:17:36 by marina            #+#    #+#             */
-/*   Updated: 2020/10/18 02:02:11 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/11 06:39:35 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 #define COLOR_EMPTY 0xFF000000
 #define COLOR_WALL 0xFFA0A0A0
 #define COLOR_BEAM 0xFFFFFFFF
-#define COLOR_ERROR 0xFFFF0000
+#define COLOR_ERROR 0x00000000
 
 t_pixel	pixel(unsigned int color)
 {
@@ -40,7 +40,7 @@ void	draw_map(t_cub3d *cub3d, double factor)
 		while (y < (int)(cub3d->map_y * factor) && y < cub3d->height)
 		{
 			c = cub3d->map[(int)(y / factor)][(int)(x / factor)];
-			if (c == '0')
+			if (c == '0' || c == '2')
 				draw_pixel(cub3d->width - x, y, pixel(COLOR_EMPTY), cub3d);
 			else if (c == '1')
 				draw_pixel(cub3d->width - x, y, pixel(COLOR_WALL), cub3d);

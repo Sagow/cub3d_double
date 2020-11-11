@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/16 03:44:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:39:41 by marina           ###   ########.fr       */
+/*   Created: 2019/11/16 20:11:50 by marina            #+#    #+#             */
+/*   Updated: 2019/11/18 22:07:32 by mdelwaul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "libft.h"
 
-void	ft_error(char *message, char *place)
+char	*ft_strrchr(const char *s, int c)
 {
-	printf("Error\n%s (in %s)\n", message, place);
-	exit(0);
+	char	*res;
+
+	res = NULL;
+	while (*s != '\0')
+	{
+		if (*s == c)
+			res = (char *)(s);
+		s++;
+	}
+	if (*s == c)
+		res = (char *)(s);
+	return (res);
 }

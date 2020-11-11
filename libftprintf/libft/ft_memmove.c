@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/16 03:44:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:39:41 by marina           ###   ########.fr       */
+/*   Created: 2019/11/08 22:49:55 by mdelwaul          #+#    #+#             */
+/*   Updated: 2019/11/20 17:05:06 by mdelwaul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "libft.h"
 
-void	ft_error(char *message, char *place)
+void					*ft_memmove(void *dst, const void *src, size_t len)
 {
-	printf("Error\n%s (in %s)\n", message, place);
-	exit(0);
+	unsigned char	buffer[len];
+
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	ft_memcpy(buffer, src, len);
+	ft_memcpy(dst, buffer, len);
+	return (dst);
 }

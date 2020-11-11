@@ -6,11 +6,11 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 04:02:17 by marina            #+#    #+#             */
-/*   Updated: 2020/10/13 19:17:14 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/11 06:40:56 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
 void	free_sprite(t_sprite *link)
 {

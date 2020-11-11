@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   x_print_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/16 03:44:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:39:41 by marina           ###   ########.fr       */
+/*   Created: 2020/08/25 14:32:07 by mdelwaul          #+#    #+#             */
+/*   Updated: 2020/08/26 18:43:56 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../printf.h"
 
-void	ft_error(char *message, char *place)
+void	x_print_string(va_list ap, t_param *p)
 {
-	printf("Error\n%s (in %s)\n", message, place);
-	exit(0);
+	if (p->conversion == 'l')
+		l_print_string(va_arg(ap, wint_t *), p);
+	else
+		n_print_string(va_arg(ap, char *), p);
 }

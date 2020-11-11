@@ -6,11 +6,11 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:02:24 by marina            #+#    #+#             */
-/*   Updated: 2020/10/13 12:16:55 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/11 06:39:30 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
 double	ang_cal(int opp1, int opp2, int adj1, int adj2)
 {
