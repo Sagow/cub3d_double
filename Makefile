@@ -23,7 +23,7 @@ NAME		=	cub3d
 RM			=	rm -f
 
 .c.o :
-			${CC} -c $< -o ${<:.c=.o} ${FLAGS} ${LIBS}
+			${CC} -c $< -o ${<:.c=.o} ${FLAGS}
 
 $(NAME) :	${OBJS}
 			make -C libftprintf -f Makefile
@@ -37,6 +37,7 @@ bonus :		all
 clean :
 			make clean -C libftprintf -f Makefile
 			${RM} ${OBJS}
+			${RM} libftprintf.a
 
 fclean :	clean
 			${RM} ${NAME}
