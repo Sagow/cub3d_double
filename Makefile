@@ -1,13 +1,17 @@
 SRCS		=	file_processing/file_processing.c	\
 				file_processing/fp_colors.c			\
 				file_processing/fp_map.c			\
+				file_processing/fp_map2.c			\
 				file_processing/fp_resolution.c		\
 				file_processing/fp_sprite.c			\
 				file_processing/fp_walls.c			\
 				detect_wall.c						\
+				detect_wall2.c						\
 				draw_aerial.c						\
+				drawing.c							\
 				errors.c							\
 				main.c								\
+				mathematics.c								\
 				move.c								\
 				sprite.c							\
 				get_next_line/get_next_line.c		\

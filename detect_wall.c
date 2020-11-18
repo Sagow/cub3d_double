@@ -6,82 +6,13 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:02:24 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:39:30 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/16 16:30:44 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3d.h"
 
-double	ang_cal(int opp1, int opp2, int adj1, int adj2)
-{
-	double	opp;
-	double	adj;
-
-	opp = (opp1 > opp2) ? opp1 - opp2 : opp2 - opp1;
-	adj = (adj1 > adj2) ? adj1 - adj2 : adj2 - adj1;
-	return (180 * atan(opp / adj) / M_PI);
-}
-
-char	translate_letter(char wall)
-{
-	if (wall % 4 == 0)
-		return ('E');
-	if (wall % 4 == 1)
-		return ('N');
-	if (wall % 4 == 2)
-		return ('W');
-	return ('S');
-}
-
-double	rtod(double	rad)
-{
-	return (simplifier(rad * 180 /M_PI));
-}
-
-/*
-** says through which one of the 4 wall of a block the ray exits
-*/
-char	right_wall(double ray, t_case spot, t_cub3d *cub3d)
-{
-	double	x_base;
-	double	y_base;
-
-	x_base = spot.p.x - cub3d->player.p.x;
-	y_base = spot.p.y - cub3d->player.p.y;
-	if (cub3d->player.dir == 'E')
-		return (ray <= rtod(atan2(y_base + 1, x_base + 1)) ? 'E' : 'N');
-	if (cub3d->player.dir == 'N')
-		return (ray <= rtod(atan2(y_base + 1, x_base)) ? 'N' : 'W');
-	if (cub3d->player.dir == 'W')
-		return (ray <= rtod(atan2(y_base, x_base)) ? 'W' : 'S');
-	if (cub3d->player.dir == 'S')
-		return (ray <= rtod(atan2(y_base, x_base + 1)) ? 'S' : 'E');
-	return ('E');
-}
-
-/*
-** right_wall indique sur lequel des 4 murs d'un bloc on va taper
-*/
-
-char	opposite_wall(char wall)
-{
-	if (wall == 'W')
-		return ('E');
-	if (wall == 'S')
-		return ('N');
-	if (wall == 'E')
-		return ('W');
-	if (wall == 'N')
-		return ('S');
-	return (0);
-}
-
-double		dtor(double angle)
-{
-	return (angle * M_PI / 180);
-}
-
-t_line		fill_t_line(double a, double b, double c, double d)
+t_line	fill_t_line(double a, double b, double c, double d)
 {
 	t_line	line;
 
@@ -92,14 +23,7 @@ t_line		fill_t_line(double a, double b, double c, double d)
 	return (line);
 }
 
-double		fmod(double number, double div)
-{
-	while (number >= (div - 0.1))
-		number -= div;
-	return (number);
-}
-
-void		intersect(t_case *spot, t_line beam, t_line wall)
+void	intersect(t_case *spot, t_line beam, t_line wall)
 {
 	double	denom;
 
@@ -115,7 +39,7 @@ void		intersect(t_case *spot, t_line beam, t_line wall)
 ** to find the distance between the player and the impact point of the current
 ** ray and the wall, and the x;y of this point
 */
-void		get_distance(t_case *spot, double ray, t_cub3d *cub3d)
+void	get_distance(t_case *spot, double ray, t_cub3d *cub3d)
 {
 	t_line		beam;
 	t_line		wall;
