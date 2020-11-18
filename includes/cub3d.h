@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:56:40 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/18 14:02:09 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@
 # include <stdlib.h>
 # include <string.h>
 # include "../get_next_line/get_next_line.h"
+# include "../libftprintf/libft/libft.h"
+# include "../libftprintf/printf.h"
+# include <sys/stat.h> 
 # include <fcntl.h>
-#include "mlx.h"
-#include "mlx_int.h"
+# include "mlx.h"
+# include "mlx_int.h"
 # ifndef M_PI
 #  define M_PI 3.1415
 # endif
@@ -60,7 +63,6 @@ typedef struct		s_fp_map
 	struct s_fp_map	*next;
 	char			*line;
 }					t_fp_map;
-
 
 typedef struct		s_pixel
 {
@@ -153,10 +155,6 @@ void				my_free(void *pointer);
 t_case				reaching_obstacle(double ray, t_cub3d *cub3d);
 void				intersect(t_case *spot, t_line beam, t_line wall);
 
-double				simplifier(double angle);
-double				dtor(double angle);
-double				rtod(double	rad);
-
 void				free_sprite(t_sprite *link);
 void				add_sprite(t_cub3d *cub3d, t_case spot, char type);
 
@@ -184,11 +182,44 @@ void				ft_error(char *message, char *place);
 t_pixel				pixel(unsigned int color);
 
 /*
-** functions used by key_pressed to move
+** functions used by key_pressed to move (move.c)
 */
 void				move_forward(t_cub3d *cub3d);
 void				move_backward(t_cub3d *cub3d);
 void				move_left(t_cub3d *cub3d);
 void				move_right(t_cub3d *cub3d);
+
+/*
+** (detect_wall2.c)
+*/
+char				translate_letter(char wall);
+char				right_wall(double ray, t_case spot, t_cub3d *cub3d);
+char				opposite_wall(char wall);
+
+/*
+** (drawing.c)
+*/
+t_pixel				texture(t_case	wall, double y, t_text *text);
+void				draw_pixel(int x, int y, t_pixel colour, t_cub3d *cub3d);
+void				draw_col(t_cub3d *cub3d, t_case wall, int i);
+t_pixel				skin_pixel(t_cub3d *cub3d, double ray, double y);
+void				draw_sprites(t_cub3d *cub3d, double ray, int i);
+
+/*
+** (mathematics.c)
+*/
+double				simplifier(double angle);
+double				dtor(double angle);
+double				rtod(double	rad);
+double				fmod(double number, double div);
+double				ang_cal(int opp1, int opp2, int adj1, int adj2);
+
+/*
+** (fp_map2.c)
+*/
+void				hole(t_cub3d *cub3d, int x, int y);
+void				get_player(t_cub3d *cub3d);
+void				assign_player(t_cub3d *cub3d, int x, int y);
+int					belongs(char c, char *charset);
 
 #endif
