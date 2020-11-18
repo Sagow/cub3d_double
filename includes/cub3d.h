@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/11/18 14:02:09 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/18 16:53:25 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # define DESC_MISSING "At least one parameter is missing."
 # define DESC_GNL "There has been a problem in get_next_line."
 # define MALLOC_FAIL "There has been a problem during memory allocation."
+# define FILE_CREATION "The file couldn't be created to save the picture."
 # define DEPARTX 2
 # define DEPARTY 2
 # define PIC_WIDTH 500
@@ -222,4 +223,5 @@ void				get_player(t_cub3d *cub3d);
 void				assign_player(t_cub3d *cub3d, int x, int y);
 int					belongs(char c, char *charset);
 
+void				save(t_cub3d *cub3d);
 #endif

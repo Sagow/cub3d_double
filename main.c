@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:53:30 by marina            #+#    #+#             */
-/*   Updated: 2020/11/16 16:36:56 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/18 16:53:54 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,6 @@ int 	main(int argc, char **argv)
 		mlx_loop(cub3d.mlx);
 	}
 	else
-		printf("ici il faut faire le save !\n");
+		save(&cub3d);
 	return (0);
 }

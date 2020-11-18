@@ -11,8 +11,9 @@ SRCS		=	file_processing/file_processing.c	\
 				drawing.c							\
 				errors.c							\
 				main.c								\
-				mathematics.c								\
+				mathematics.c						\
 				move.c								\
+				save.c								\
 				sprite.c							\
 				get_next_line/get_next_line.c		\
 				get_next_line/get_next_line_utils.c
