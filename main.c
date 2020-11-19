@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:53:30 by marina            #+#    #+#             */
-/*   Updated: 2020/11/18 16:53:54 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/18 18:31:17 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,12 @@ int 	main(int argc, char **argv)
 	cub3d.show_map = 0;
 	mlx_hook(cub3d.win, 2, (1L<<0), &key_press, &cub3d);
 	update(&cub3d);
-	if (!cub3d.save)
-	{
-		mlx_put_image_to_window(cub3d.mlx, cub3d.win, cub3d.img, 0, 0);
-		mlx_loop(cub3d.mlx);
-	}
-	else
+	if (cub3d.save)
 		save(&cub3d);
+	mlx_put_image_to_window(cub3d.mlx, cub3d.win, cub3d.img, 0, 0);
+	mlx_loop(cub3d.mlx);
 	return (0);
 }
+
+
+// faire quitter proprement si on ferme la fenetre avec un clic

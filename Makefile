@@ -33,7 +33,7 @@ RM			=	rm -f
 $(NAME) :	${OBJS}
 			make -C libftprintf -f Makefile
 			mv libftprintf/libftprintf.a .
-			${CC} ${OBJS} ${FLAGS} ${LIBS} -Ilibftprintf -g -o ${NAME}
+			${CC} ${OBJS} ${FLAGS} ${LIBS} -L. libftprintf.a -g -o ${NAME}
 
 all :		${NAME}
 

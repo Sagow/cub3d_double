@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 03:44:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/16 16:31:57 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/18 18:06:52 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_error(char *message, char *place)
 {
-	printf("Error\n%s (in %s)\n", message, place);
+	ft_printf("Error\n%s (in %s)\n", message, place);
 	exit(0);
 }

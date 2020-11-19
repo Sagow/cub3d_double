@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:02:24 by marina            #+#    #+#             */
-/*   Updated: 2020/11/16 16:30:44 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/18 18:06:28 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,6 @@ t_case	reaching_obstacle(double ray, t_cub3d *cub3d)
 		if (obs != '0' && obs != '1')
 			add_sprite(cub3d, spot, obs);
 	}
-	//printf("test\n");
-	
-	//test_verif_sprite(cub3d);
 	get_distance(&spot, ray, cub3d);
-	//printf("test2\n");
 	return (spot);
 }

@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/11/18 16:53:25 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/18 18:02:42 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include "../get_next_line/get_next_line.h"
-# include "../libftprintf/libft/libft.h"
 # include "../libftprintf/printf.h"
 # include <sys/stat.h> 
 # include <fcntl.h>
