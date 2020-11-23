@@ -6,15 +6,15 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 13:33:42 by marina            #+#    #+#             */
-/*   Updated: 2020/11/19 00:43:42 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/23 19:21:02 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3d.h"
 
-unsigned int	size_of_file(t_cub3d *cub3d)
+int	size_of_file(t_cub3d *cub3d)
 {
-	unsigned int	size_picture;
+	int	size_picture;
 
 	size_picture = cub3d->height * cub3d->width * sizeof(t_pixel);
 	return (54 + size_picture);
@@ -22,15 +22,15 @@ unsigned int	size_of_file(t_cub3d *cub3d)
 
 void			file_type_data(int fd, t_cub3d *cub3d)
 {
-	unsigned int	value;
+	int	value;
 
-	value = (unsigned int)size_of_file(cub3d);
+	value = size_of_file(cub3d);
 	write(fd, "BM", 2);
 	write(fd, &value, 4);
-	value = (unsigned int)0;
+	value = 0;
 	write(fd, &value, 2);
 	write(fd, &value, 2);
-	value = (unsigned int)54;
+	value = 54;
 	write(fd, &value, 4);
 
 	printf("fd file_data= %d\n", fd);
@@ -42,50 +42,39 @@ void			image_information_data(int fd, t_cub3d *cub3d)
 	signed int		svalue;*/
 	int	value;
 
-	value = /*(unsigned int)*/40;
+	value = 40;
 	write(fd, &value, 4);
-	value = /*(signed int)*/cub3d->width;
+	value = (int)cub3d->width;
 	write(fd, &value, 4);
-	value = /*(signed int)*/cub3d->height;
+	value = (int)cub3d->height;
 	write(fd, &value, 4);
-	value = /*(unsigned int)*/1;
+	value = 1;
 	write(fd, &value, 2);
-	value = /*(unsigned int)*/sizeof(t_pixel);
+	value = 32;
 	write(fd, &value, 2);
-	value = /*(unsigned int)*/0;
-	write(fd, &value, 4);
-	write(fd, &value, 4);
-	value = /*(signed int)*/0;
+	value = 0;
 	write(fd, &value, 4);
 	write(fd, &value, 4);
 	write(fd, &value, 4);
 	write(fd, &value, 4);
-}
-
-void			color_table(int fd)
-{
-	unsigned char	intensity;
-
-	intensity = 255;
-	write(fd, &intensity, 1);
-	write(fd, &intensity, 1);
-	write(fd, &intensity, 1);
-	intensity = 0;
-	write(fd, &intensity, 1);
+	write(fd, &value, 4);
+	write(fd, &value, 4);
 }
 
 void			raw_pixel_data(int fd, t_cub3d *cub3d)
 {
 	int	i;
 	int	j;
+	int	*tmp;
 
+	tmp = (int *)mlx_get_data_addr(cub3d->img, &i, &i, &i);
 	i = cub3d->height - 1;
 	while (i >= 0)
 	{
 		j = 0;
 		while (j < cub3d->width)
 		{
-			write(fd, &(cub3d->draw[i * cub3d->height + j]), sizeof(t_pixel));
+			write(fd, &(tmp[i * cub3d->width + j]), sizeof(t_pixel));
 			j++;
 		}
 		i--;
@@ -95,22 +84,28 @@ void			raw_pixel_data(int fd, t_cub3d *cub3d)
 void			save(t_cub3d *cub3d)
 {
 	int		fd;
-	char	*path = "screenshots/save";
-	//mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	char	*name1;
+	char	*name2;
+	mode_t	mode = S_IRUSR | /*S_IWUSR |*/ S_IRGRP | S_IROTH;
 	int		i;
 
 	i = 1;
-	//while ((fd = open(ft_strjoin(ft_strjoin(path, ft_itoa(i)), ".bmp"), O_CREAT, mode/*'w'*/)) == -1 && i < 200)
-	//	i++;
-	while ((fd = open(ft_strjoin(ft_strjoin(path, ft_itoa(i)), ".bmp"),O_RDWR | O_CREAT/* | O_WRONLY*/)) == -1 && i < 100)
+	name1 = ft_strjoin("screenshots/save", ft_itoa(i));
+	name2 = ft_strjoin(name1, ".bmp");
+	my_free(name1);
+	while ((fd = open(name2, O_RDONLY | O_CREAT, mode)) == -1 && i < 300)
+	{
 		i++;
-	printf("fd = %d\n", fd);
-	printf("sizeof t_pixel : %lu\n", sizeof(t_pixel));
+		my_free(name2);
+		name1 = ft_strjoin("screenshots/save", ft_itoa(i));
+		name2 = ft_strjoin(name1, ".bmp");
+		my_free(name1);
+	}
+	my_free(name2);
 	if (fd < 0)
 		ft_error(FILE_CREATION, "screenshots");
 	file_type_data(fd, cub3d);
 	image_information_data(fd, cub3d);
-	//color_table(fd);
 	raw_pixel_data(fd, cub3d);
 	close(fd);
 }
