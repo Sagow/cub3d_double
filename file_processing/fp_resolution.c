@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 05:45:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:38:45 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/23 21:09:21 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		fp_resolution(t_cub3d *cub3d, char *line, int i)
 	h = get_value(line, &i, h);
 	if ((i = space(line, i)) != -1)
 		ft_error(DESC_WRONG_CHAR, "resolution");
+	printf("screen width = %d, fov = %f\n", w, 2*atan(0.5*w/1700));
 	cub3d->width = w;
 	cub3d->height = h;
 }

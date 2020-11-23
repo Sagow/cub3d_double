@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 13:33:42 by marina            #+#    #+#             */
-/*   Updated: 2020/11/23 19:21:02 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/23 19:45:51 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void			file_type_data(int fd, t_cub3d *cub3d)
 	write(fd, &value, 2);
 	value = 54;
 	write(fd, &value, 4);
-
-	printf("fd file_data= %d\n", fd);
 }
 
 void			image_information_data(int fd, t_cub3d *cub3d)
@@ -84,26 +82,11 @@ void			raw_pixel_data(int fd, t_cub3d *cub3d)
 void			save(t_cub3d *cub3d)
 {
 	int		fd;
-	char	*name1;
-	char	*name2;
-	mode_t	mode = S_IRUSR | /*S_IWUSR |*/ S_IRGRP | S_IROTH;
-	int		i;
-
-	i = 1;
-	name1 = ft_strjoin("screenshots/save", ft_itoa(i));
-	name2 = ft_strjoin(name1, ".bmp");
-	my_free(name1);
-	while ((fd = open(name2, O_RDONLY | O_CREAT, mode)) == -1 && i < 300)
-	{
-		i++;
-		my_free(name2);
-		name1 = ft_strjoin("screenshots/save", ft_itoa(i));
-		name2 = ft_strjoin(name1, ".bmp");
-		my_free(name1);
-	}
-	my_free(name2);
+	mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	
+	fd = open("screenshot.bmp", O_RDWR | O_CREAT, mode);
 	if (fd < 0)
-		ft_error(FILE_CREATION, "screenshots");
+		ft_error(FILE_CREATION, "screenshot.bmp");
 	file_type_data(fd, cub3d);
 	image_information_data(fd, cub3d);
 	raw_pixel_data(fd, cub3d);

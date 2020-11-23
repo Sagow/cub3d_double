@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:34:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/16 16:37:02 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/23 20:45:02 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ t_pixel	skin_pixel(t_cub3d *cub3d, double ray, double y)
 
 void	draw_sprites(t_cub3d *cub3d, double ray, int i)
 {
-	int		j;
-	double	h;
-	double	rad;
+	int			j;
+	double		h;
+	double		rad;
 	t_sprite	*bin;
 
 	rad = atan2(cub3d->sprite->data.p.y - cub3d->player.p.y, cub3d->sprite->data.p.x - cub3d->player.p.x) - dtor(ray);

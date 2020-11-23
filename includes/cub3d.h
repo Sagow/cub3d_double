@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/11/18 18:02:42 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/23 21:33:11 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ typedef struct		s_cub3d
 	int				width;
 	int				height;
 	double			*distances;
-	int				fov;
+	double			fov;
 	t_obj			player;
 	t_sprite		*sprite;
 	t_skin			*skins;
