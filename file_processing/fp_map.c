@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 01:50:56 by marina            #+#    #+#             */
-/*   Updated: 2020/11/16 16:22:24 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 13:12:54 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,6 @@ void	fp_map(t_cub3d *cub3d, int fd, char *line)
 	begins = map;
 	map->line = ft_strdup(line);
 	line = NULL;
-	//free(line);
-	//my_free(line);
 	gnl = 1;
 	while (gnl > 0)
 	{

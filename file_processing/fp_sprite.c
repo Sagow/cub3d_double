@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 06:05:41 by marina            #+#    #+#             */
-/*   Updated: 2020/11/11 06:38:50 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 13:19:18 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void		fp_sprite(t_cub3d *cub3d, char *line, int i)
 	char	*path;
 	int		trash;
 
-	
 	size = 1;
 	if (cub3d->skins)
 		ft_error(DESC_ALREADY, "sprite");
@@ -41,8 +40,10 @@ void		fp_sprite(t_cub3d *cub3d, char *line, int i)
 	if ((i = space(line, i)) != -1)
 		ft_error(DESC_WRONG_CHAR, "sprite");
 	cub3d->skins[0].type = '2';
-	cub3d->skins[0].skin.ptr = mlx_xpm_file_to_image(cub3d->mlx, path, &cub3d->skins[0].skin.width, &cub3d->skins[0].skin.height);
-	cub3d->skins[0].skin.draw = (t_pixel *)mlx_get_data_addr(cub3d->skins[0].skin.ptr, &trash, &trash, &trash);
+	cub3d->skins[0].skin.ptr = mlx_xpm_file_to_image(cub3d->mlx, path,
+	&cub3d->skins[0].skin.width, &cub3d->skins[0].skin.height);
+	cub3d->skins[0].skin.draw = (t_pixel *)mlx_get_data_addr(cub3d->
+	skins[0].skin.ptr, &trash, &trash, &trash);
 	cub3d->skins[1].type = 0;
 	my_free(path);
 }

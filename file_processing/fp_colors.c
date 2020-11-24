@@ -6,13 +6,13 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 05:13:04 by marina            #+#    #+#             */
-/*   Updated: 2020/11/16 16:19:58 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 13:21:07 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	get_color(char *line, int *i, unsigned char *value)
+void			get_color(char *line, int *i, unsigned char *value)
 {
 	int color;
 
