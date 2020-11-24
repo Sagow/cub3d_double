@@ -6,12 +6,11 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 03:05:37 by mdelwaul          #+#    #+#             */
-/*   Updated: 2020/10/04 01:23:53 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 13:09:18 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-//#include <libc.h>
 
 int			jump(t_buffer *b, int fd)
 {
