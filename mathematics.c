@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:27:06 by marina            #+#    #+#             */
-/*   Updated: 2020/11/16 16:33:31 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 12:44:27 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ double	ang_cal(int opp1, int opp2, int adj1, int adj2)
 	return (180 * atan(opp / adj) / M_PI);
 }
 
-double	rtod(double	rad)
+double	rtod(double rad)
 {
-	return (simplifier(rad * 180 /M_PI));
+	return (simplifier(rad * 180 / M_PI));
 }
 
 double	dtor(double angle)

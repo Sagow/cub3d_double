@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 18:02:24 by marina            #+#    #+#             */
-/*   Updated: 2020/11/18 18:06:28 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 12:57:25 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,16 @@ void	intersect(t_case *spot, t_line beam, t_line wall)
 {
 	double	denom;
 
-	denom = (beam.p1.x - beam.p2.x) * (wall.p1.y - wall.p2.y) - (beam.p1.y - beam.p2.y) *
-	(wall.p1.x - wall.p2.x);
-	spot->p.x = ((beam.p1.x * beam.p2.y - beam.p1.y * beam.p2.x) * (wall.p1.x - wall.p2.x) -
-	(beam.p1.x - beam.p2.x) * (wall.p1.x * wall.p2.y - wall.p1.y * wall.p2.x)) / denom;
-	spot->p.y = ((beam.p1.x * beam.p2.y - beam.p1.y * beam.p2.x) * (wall.p1.y - wall.p2.y) -
-	(beam.p1.y - beam.p2.y) * (wall.p1.x * wall.p2.y - wall.p1.y * wall.p2.x)) / denom;
+	denom = (beam.p1.x - beam.p2.x) * (wall.p1.y - wall.p2.y) - (beam.p1.y -
+	beam.p2.y) * (wall.p1.x - wall.p2.x);
+	spot->p.x = ((beam.p1.x * beam.p2.y - beam.p1.y * beam.p2.x) *
+	(wall.p1.x - wall.p2.x) - (beam.p1.x - beam.p2.x) * (wall.p1.x * wall.p2.y
+	- wall.p1.y * wall.p2.x)) / denom;
+	spot->p.y = ((beam.p1.x * beam.p2.y - beam.p1.y * beam.p2.x) * (wall.p1.y -
+	wall.p2.y) - (beam.p1.y - beam.p2.y) * (wall.p1.x * wall.p2.y - wall.p1.y *
+	wall.p2.x)) / denom;
 }
 
-/*
-** to find the distance between the player and the impact point of the current
-** ray and the wall, and the x;y of this point
-*/
 void	get_distance(t_case *spot, double ray, t_cub3d *cub3d)
 {
 	t_line		beam;
@@ -51,11 +49,14 @@ void	get_distance(t_case *spot, double ray, t_cub3d *cub3d)
 	else if (spot->wall == 'S')
 		wall = fill_t_line(spot->p.x, spot->p.y, spot->p.x + 1, spot->p.y);
 	else if (spot->wall == 'E')
-		wall = fill_t_line(spot->p.x + 1, spot->p.y, spot->p.x + 1, spot->p.y + 1);
+		wall = fill_t_line(spot->p.x + 1, spot->p.y, spot->p.x + 1,
+		spot->p.y + 1);
 	else
-		wall = fill_t_line(spot->p.x + 1, spot->p.y + 1, spot->p.x, spot->p.y + 1);
+		wall = fill_t_line(spot->p.x + 1, spot->p.y + 1, spot->p.x,
+		spot->p.y + 1);
 	intersect(spot, beam, wall);
-	spot->dist = hypot(cub3d->player.p.x - spot->p.x, cub3d->player.p.y - spot->p.y);
+	spot->dist = hypot(cub3d->player.p.x - spot->p.x,
+	cub3d->player.p.y - spot->p.y);
 }
 
 char	get_first_wall(double ray)
@@ -69,9 +70,6 @@ char	get_first_wall(double ray)
 	return ('S');
 }
 
-/*
-** avance le rayon, jusqu'à atteindre un mur. Renvoie les coordonnées dudit mur
-*/
 t_case	reaching_obstacle(double ray, t_cub3d *cub3d)
 {
 	char	obs;

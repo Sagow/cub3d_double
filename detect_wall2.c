@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:29:34 by marina            #+#    #+#             */
-/*   Updated: 2020/11/16 16:30:51 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 12:58:02 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ char	translate_letter(char wall)
 	return ('S');
 }
 
-/*
-** says through which one of the 4 wall of a block the ray exits
-*/
 char	right_wall(double ray, t_case spot, t_cub3d *cub3d)
 {
 	double	x_base;

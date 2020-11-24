@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 21:17:36 by marina            #+#    #+#             */
-/*   Updated: 2020/11/16 16:31:54 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 12:45:42 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ t_pixel	pixel(unsigned int color)
 
 void	draw_map(t_cub3d *cub3d, double factor)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 	char	c;
 
 	x = 0;
@@ -66,7 +66,8 @@ void	draw_line(t_line p, unsigned int color, t_cub3d *cub3d)
 	dy /= steps;
 	i = -1;
 	while (++i < (int)steps)
-		draw_pixel(cub3d->width - (int)(p.p1.x + dx * i), (int)(p.p1.y + dy * i), pixel(color), cub3d);
+		draw_pixel(cub3d->width - (int)(p.p1.x + dx * i),
+		(int)(p.p1.y + dy * i), pixel(color), cub3d);
 }
 
 void	draw_beams(t_cub3d *cub3d, double factor)
@@ -74,7 +75,7 @@ void	draw_beams(t_cub3d *cub3d, double factor)
 	double		ray;
 	t_line		p;
 	int			i;
-	
+
 	i = 0;
 	while (i < cub3d->width)
 	{
@@ -83,8 +84,10 @@ void	draw_beams(t_cub3d *cub3d, double factor)
 		ray = simplifier(ray + cub3d->player.ang);
 		p.p1.x = (cub3d->player.p.x) * factor;
 		p.p1.y = ((cub3d->map_y) - (cub3d->player.p.y)) * factor;
-		p.p2.x = (p.p1.x / factor + cos(dtor(-ray)) * cub3d->distances[i]) * factor;
-		p.p2.y = (p.p1.y / factor + sin(dtor(-ray)) * cub3d->distances[i]) * factor;
+		p.p2.x = (p.p1.x / factor + cos(dtor(-ray)) *
+		cub3d->distances[i]) * factor;
+		p.p2.y = (p.p1.y / factor + sin(dtor(-ray)) *
+		cub3d->distances[i]) * factor;
 		draw_line(p, 0xAFFFFFFE, cub3d);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 04:02:17 by marina            #+#    #+#             */
-/*   Updated: 2020/11/18 13:33:24 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 12:35:36 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	free_sprite(t_sprite *link)
 
 void	get_skin(t_cub3d *cub3d, t_sprite *new, char type)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (cub3d->skins[i].type && cub3d->skins[i].type != type)
 		i++;
@@ -43,7 +43,8 @@ void	add_sprite(t_cub3d *cub3d, t_case spot, char type)
 	new->closer = cub3d->sprite;
 	new->data.p.x = (int)spot.p.x + 0.5;
 	new->data.p.y = (int)spot.p.y + 0.5;
-	new->data.dist = hypot(new->data.p.x - cub3d->player.p.x, new->data.p.y - cub3d->player.p.y);
+	new->data.dist = hypot(new->data.p.x - cub3d->player.p.x,
+	new->data.p.y - cub3d->player.p.y);
 	new->data.wall = type;
 	get_skin(cub3d, new, type);
 	cub3d->sprite = new;

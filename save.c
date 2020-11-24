@@ -6,13 +6,13 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 13:33:42 by marina            #+#    #+#             */
-/*   Updated: 2020/11/23 19:45:51 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 12:37:46 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3d.h"
 
-int	size_of_file(t_cub3d *cub3d)
+int				size_of_file(t_cub3d *cub3d)
 {
 	int	size_picture;
 
@@ -36,8 +36,6 @@ void			file_type_data(int fd, t_cub3d *cub3d)
 
 void			image_information_data(int fd, t_cub3d *cub3d)
 {
-	/*unsigned int	uvalue;
-	signed int		svalue;*/
 	int	value;
 
 	value = 40;
@@ -82,8 +80,9 @@ void			raw_pixel_data(int fd, t_cub3d *cub3d)
 void			save(t_cub3d *cub3d)
 {
 	int		fd;
-	mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	
+	mode_t	mode;
+
+	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	fd = open("screenshot.bmp", O_RDWR | O_CREAT, mode);
 	if (fd < 0)
 		ft_error(FILE_CREATION, "screenshot.bmp");
