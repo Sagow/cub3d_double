@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 05:13:04 by marina            #+#    #+#             */
-/*   Updated: 2020/11/24 13:21:07 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/24 13:22:30 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void			get_color(char *line, int *i, unsigned char *value)
 	int color;
 
 	color = 0;
-	while(line[*i] >= '0' && line[*i] <= '9')
+	while (line[*i] >= '0' && line[*i] <= '9')
 	{
 		color = color * 10 + (int)(line[*i] - '0');
 		*i = *i + 1;
