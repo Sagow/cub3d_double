@@ -1,14 +1,17 @@
 SRCS		=	file_processing/file_processing.c	\
+				file_processing/file_processing2.c	\
 				file_processing/fp_colors.c			\
 				file_processing/fp_map.c			\
 				file_processing/fp_map2.c			\
 				file_processing/fp_resolution.c		\
 				file_processing/fp_sprite.c			\
 				file_processing/fp_walls.c			\
+				close.c								\
 				detect_wall.c						\
 				detect_wall2.c						\
 				draw_aerial.c						\
 				drawing.c							\
+				drawing2.c							\
 				errors.c							\
 				main.c								\
 				mathematics.c						\
@@ -22,7 +25,7 @@ INCLUDES	=	-Iget_next_line						\
 				-Iincludes
 OBJS		=	${SRCS:.c=.o}
 CC			=	clang
-FLAGS		=	-Wall -Werror -Wextra ${INCLUDES} -D BUFFER_SIZE=4096 -O3
+FLAGS		=	-Wall -Werror -Wextra -fsanitize=leak ${INCLUDES} -D BUFFER_SIZE=4096 -O3
 LIBS		=	-lXext -lbsd -lmlx -lX11 -lm
 NAME		=	cub3d
 RM			=	rm -f

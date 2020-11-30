@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/10 04:02:17 by marina            #+#    #+#             */
-/*   Updated: 2020/11/24 12:35:36 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/30 14:00:05 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_sprite(t_sprite *link)
 	{
 		if (link->closer)
 			free_sprite(link->closer);
+		my_free(link->image);
 		free(link);
 		link = NULL;
 	}

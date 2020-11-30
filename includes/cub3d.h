@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/11/23 21:33:11 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/30 13:29:40 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <string.h>
 # include "../get_next_line/get_next_line.h"
 # include "../libftprintf/printf.h"
-# include <sys/stat.h> 
+# include <sys/stat.h>
 # include <fcntl.h>
 # include "mlx.h"
 # include "mlx_int.h"
@@ -35,7 +35,7 @@
 # define MAP_WRONG_CHAR "Unexpected character in the map."
 # define MAP_SVRL_PLAYERS "A second player has been detected in the map"
 # define DESC_WRONG_CHAR "Unexpected character in the description."
-# define DESC_INCOMPLETE "The description of one of the parameters is incomplete."
+# define DESC_INCOMP "The description of one of the parameters is incomplete."
 # define DESC_ALREADY "This parameter has already been initialized."
 # define DESC_PATH "Wrong path."
 # define DESC_COLOR "The description of the color seems wrong."
@@ -53,10 +53,10 @@
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_M 59
+# define KEY_ESC 65307
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
 # define SPEED 10
-/*
-**angle's range [0;360[
-*/
 
 typedef struct		s_fp_map
 {
@@ -145,20 +145,18 @@ typedef struct		s_cub3d
 	char			save;
 }					t_cub3d;
 
+int					click(t_cub3d *cub3d);
 void				draw_pixel(int x, int y, t_pixel colour, t_cub3d *cub3d);
 void				aerial(t_cub3d *cub3d);
 t_line				fill_t_line(double a, double b, double c, double d);
 
 void				mapping(int fd, t_cub3d *cub3d);
-void				my_free(void *pointer);
 
 t_case				reaching_obstacle(double ray, t_cub3d *cub3d);
 void				intersect(t_case *spot, t_line beam, t_line wall);
 
 void				free_sprite(t_sprite *link);
 void				add_sprite(t_cub3d *cub3d, t_case spot, char type);
-
-int					space(char *line, int i);
 
 void				file_processing(int fd, t_cub3d *cub3d);
 
@@ -173,11 +171,12 @@ void				fp_floor(t_cub3d *cub3d, char *line, int i);
 void				fp_ceiling(t_cub3d *cub3d, char *line, int i);
 
 void				fp_sprite(t_cub3d *cub3d, char *line, int i);
+void				get_path(char *path, int *i, char *line, int max);
 
 void				fp_map(t_cub3d *cub3d, int fd, char *line);
 
-void				check_processed(t_cub3d *cub3d);
-void				ft_error(char *message, char *place);
+void				ft_error(char *message, char *place, t_cub3d *cub3d);
+void				my_exit(t_cub3d *cub3d);
 
 t_pixel				pixel(unsigned int color);
 
@@ -221,6 +220,25 @@ void				hole(t_cub3d *cub3d, int x, int y);
 void				get_player(t_cub3d *cub3d);
 void				assign_player(t_cub3d *cub3d, int x, int y);
 int					belongs(char c, char *charset);
+int					gnl_to_chain(int fd, t_fp_map **begins, char *line, t_cub3d
+*cub3d);
+
+/*
+** (file_processing2.c)
+*/
+void				my_free(void *pointer);
+int					space(char *line, int i);
+void				check_processed(t_cub3d *cub3d);
+void				init_cub3d(t_cub3d *cub3d);
+
+/*
+** (drawing2.c)
+*/
+t_pixel				texture(t_case wall, double y, t_text *text);
+void				draw_pixel(int x, int y, t_pixel colour, t_cub3d *cub3d);
+void				draw_col(t_cub3d *cub3d, t_case wall, int i);
+t_text 				*get_text(t_case wall, t_cub3d *cub3d);
 
 void				save(t_cub3d *cub3d);
+
 #endif

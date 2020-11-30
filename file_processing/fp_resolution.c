@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 05:45:43 by marina            #+#    #+#             */
-/*   Updated: 2020/11/24 13:12:26 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/30 13:19:30 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ void		fp_resolution(t_cub3d *cub3d, char *line, int i)
 	int		h;
 
 	if (cub3d->width || cub3d->height)
-		ft_error(DESC_ALREADY, "resolution");
+		ft_error(DESC_ALREADY, "resolution", cub3d);
 	mlx_get_screen_size(cub3d->mlx, &w, &h);
 	if ((i = space(line, i)) == -1)
-		ft_error(DESC_INCOMPLETE, "resolution");
+		ft_error(DESC_INCOMP, "resolution", cub3d);
 	w = get_value(line, &i, w);
 	if ((i = space(line, i)) == -1)
-		ft_error(DESC_INCOMPLETE, "resolution");
+		ft_error(DESC_INCOMP, "resolution", cub3d);
 	h = get_value(line, &i, h);
 	if ((i = space(line, i)) != -1)
-		ft_error(DESC_WRONG_CHAR, "resolution");
+		ft_error(DESC_WRONG_CHAR, "resolution", cub3d);
 	cub3d->width = w;
 	cub3d->height = h;
 }

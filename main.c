@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:53:30 by marina            #+#    #+#             */
-/*   Updated: 2020/11/24 12:41:22 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/30 13:38:17 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void	update(t_cub3d *cub3d)
 
 int		key_press(int key_pressed, t_cub3d *cub3d)
 {
-	if (key_pressed == 32)
-		exit(0);
-	if (key_pressed == 65361)
+	if (key_pressed == KEY_ESC)
+		my_exit(cub3d);
+	if (key_pressed == KEY_LEFT)
 		cub3d->player.ang = simplifier(cub3d->player.ang + 1);
-	if (key_pressed == 65363)
+	if (key_pressed == KEY_RIGHT)
 		cub3d->player.ang = simplifier(cub3d->player.ang - 1);
 	if (key_pressed == KEY_Z)
 		move_forward(cub3d);
@@ -73,24 +73,24 @@ int		key_press(int key_pressed, t_cub3d *cub3d)
 	return (1);
 }
 
-char	arguments(int ac, char **av)
+char	arguments(int ac, char **av, t_cub3d *cub3d)
 {
 	char	*cub;
 
 	if (ac < 2)
-		ft_error(ARG_FEW, "the arguments");
+		ft_error(ARG_FEW, "the arguments", cub3d);
 	if (ac > 3)
-		ft_error(ARG_MANY, "the call just above");
-	cub = strstr(av[1], ".cub");
+		ft_error(ARG_MANY, "the call just above", cub3d);
+	cub = ft_strnstr(av[1], ".cub", ft_strlen(av[1]));
 	if (!cub)
-		ft_error(ARG_CUB, av[1]);
-	if (strcmp(cub, ".cub") != 0)
-		ft_error(ARG_CUB, av[1]);
+		ft_error(ARG_CUB, av[1], cub3d);
+	if (ft_strncmp(cub, ".cub", 5) != 0)
+		ft_error(ARG_CUB, av[1], cub3d);
 	if (ac == 3)
 	{
-		if (strcmp(av[2], "--save") == 0)
+		if (ft_strncmp(av[2], "--save", 7) == 0)
 			return (1);
-		ft_error(ARG_SAVE, av[2]);
+		ft_error(ARG_SAVE, av[2], cub3d);
 	}
 	return (0);
 }
@@ -101,9 +101,9 @@ int		main(int argc, char **argv)
 	int				fd;
 	int				t;
 
-	cub3d.save = arguments(argc, argv);
+	cub3d.save = arguments(argc, argv, &cub3d);
 	if ((fd = open(argv[1], 'r')) < 0)
-		ft_error(OPEN_FAIL, argv[1]);
+		ft_error(OPEN_FAIL, argv[1], &cub3d);
 	cub3d.mlx = mlx_init();
 	file_processing(fd, &cub3d);
 	cub3d.win = mlx_new_window(cub3d.mlx, cub3d.width, cub3d.height, "Cub3d");
@@ -115,6 +115,7 @@ int		main(int argc, char **argv)
 	cub3d.sprite = NULL;
 	cub3d.show_map = 0;
 	mlx_hook(cub3d.win, 2, (1L << 0), &key_press, &cub3d);
+	mlx_hook(cub3d.win, 17, 1L << 17, click, &cub3d);
 	update(&cub3d);
 	if (cub3d.save)
 		save(&cub3d);

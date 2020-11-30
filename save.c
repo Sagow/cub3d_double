@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 13:33:42 by marina            #+#    #+#             */
-/*   Updated: 2020/11/24 12:37:46 by marina           ###   ########.fr       */
+/*   Updated: 2020/11/30 13:23:19 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void			save(t_cub3d *cub3d)
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	fd = open("screenshot.bmp", O_RDWR | O_CREAT, mode);
 	if (fd < 0)
-		ft_error(FILE_CREATION, "screenshot.bmp");
+		ft_error(FILE_CREATION, "screenshot.bmp", cub3d);
 	file_type_data(fd, cub3d);
 	image_information_data(fd, cub3d);
 	raw_pixel_data(fd, cub3d);
