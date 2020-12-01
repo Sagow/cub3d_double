@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 13:19:48 by marina            #+#    #+#             */
-/*   Updated: 2020/11/30 13:14:20 by marina           ###   ########.fr       */
+/*   Updated: 2020/12/01 14:44:28 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void		file_processing(int fd, t_cub3d *cub3d)
 	char	*line;
 	int		i;
 
-	init_cub3d(cub3d);
 	line = NULL;
 	gnl = get_next_line(fd, &line);
 	while (gnl > 0)

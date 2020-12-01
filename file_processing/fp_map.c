@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 01:50:56 by marina            #+#    #+#             */
-/*   Updated: 2020/11/30 13:54:12 by marina           ###   ########.fr       */
+/*   Updated: 2020/12/01 16:14:30 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,14 @@ void	chain_to_map(t_cub3d *cub3d, t_fp_map **begins, int size)
 	cub3d->map[i] = NULL;
 }
 
+void	free_t_fp_map(t_fp_map *map)
+{
+	my_free(map->line);
+	if (map->next)
+		free_t_fp_map(map->next);
+	my_free(map);
+}
+
 void	fp_map(t_cub3d *cub3d, int fd, char *line)
 {
 	t_fp_map	**begins;
@@ -96,11 +104,5 @@ void	fp_map(t_cub3d *cub3d, int fd, char *line)
 	chain_to_map(cub3d, begins, size + 1);
 	check_holes(cub3d);
 	get_player(cub3d);
-	while (*begins)
-	{
-		my_free((*begins)->line);
-		map = *begins;
-		begins = &map->next;
-		my_free(map);
-	}
+	free_t_fp_map(*begins);
 }

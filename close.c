@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 19:52:29 by marina            #+#    #+#             */
-/*   Updated: 2020/11/30 14:19:36 by marina           ###   ########.fr       */
+/*   Updated: 2020/12/01 16:25:16 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,5 @@ void	my_exit(t_cub3d *cub3d)
 	my_free(cub3d->map);
 	free_sprite(cub3d->sprite);
 	my_free(cub3d->distances);
-	i = mlx_destroy_image(cub3d->mlx, cub3d->skins->skin.ptr);
-	my_free(cub3d->skins);
 	exit(0);
 }

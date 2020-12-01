@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 19:53:30 by marina            #+#    #+#             */
-/*   Updated: 2020/11/30 13:38:17 by marina           ###   ########.fr       */
+/*   Updated: 2020/12/01 14:47:35 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int		main(int argc, char **argv)
 	int				fd;
 	int				t;
 
+	init_cub3d(&cub3d);
 	cub3d.save = arguments(argc, argv, &cub3d);
 	if ((fd = open(argv[1], 'r')) < 0)
 		ft_error(OPEN_FAIL, argv[1], &cub3d);
@@ -111,9 +112,6 @@ int		main(int argc, char **argv)
 	cub3d.draw = (t_pixel *)mlx_get_data_addr(cub3d.img, &t, &t, &t);
 	if (!(cub3d.distances = malloc(sizeof(double) * cub3d.width)))
 		return (-1);
-	cub3d.fov = 60;
-	cub3d.sprite = NULL;
-	cub3d.show_map = 0;
 	mlx_hook(cub3d.win, 2, (1L << 0), &key_press, &cub3d);
 	mlx_hook(cub3d.win, 17, 1L << 17, click, &cub3d);
 	update(&cub3d);

@@ -6,7 +6,7 @@
 /*   By: marina <marina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/05 17:52:50 by marina            #+#    #+#             */
-/*   Updated: 2020/11/30 13:29:40 by marina           ###   ########.fr       */
+/*   Updated: 2020/12/01 15:20:09 by marina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,6 @@ typedef struct		s_sprite
 	t_case			data;
 }					t_sprite;
 
-typedef struct		s_skin
-{
-	char			type;
-	t_text			skin;
-}					t_skin;
-
 typedef struct		s_cub3d
 {
 	void			*mlx;
@@ -137,7 +131,7 @@ typedef struct		s_cub3d
 	double			fov;
 	t_obj			player;
 	t_sprite		*sprite;
-	t_skin			*skins;
+	t_text			skin;
 	char			show_map;
 	char			**map;
 	int				map_x;
@@ -145,6 +139,7 @@ typedef struct		s_cub3d
 	char			save;
 }					t_cub3d;
 
+void				init_cub3d(t_cub3d *cub3d);
 int					click(t_cub3d *cub3d);
 void				draw_pixel(int x, int y, t_pixel colour, t_cub3d *cub3d);
 void				aerial(t_cub3d *cub3d);

@@ -13,6 +13,7 @@ SRCS		=	file_processing/file_processing.c	\
 				drawing.c							\
 				drawing2.c							\
 				errors.c							\
+				init_cub3d.c						\
 				main.c								\
 				mathematics.c						\
 				move.c								\
@@ -25,7 +26,7 @@ INCLUDES	=	-Iget_next_line						\
 				-Iincludes
 OBJS		=	${SRCS:.c=.o}
 CC			=	clang
-FLAGS		=	-Wall -Werror -Wextra -fsanitize=leak ${INCLUDES} -D BUFFER_SIZE=4096 -O3
+FLAGS		=	-Wall -Werror -Wextra ${INCLUDES} -D BUFFER_SIZE=4096
 LIBS		=	-lXext -lbsd -lmlx -lX11 -lm
 NAME		=	cub3d
 RM			=	rm -f
